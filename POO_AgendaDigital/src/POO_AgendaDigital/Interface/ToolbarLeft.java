@@ -117,7 +117,6 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				
 			}
 			
 			@Override
@@ -125,6 +124,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 				if (e.getClickCount() == 1) {
 					getVisiblePanel = true;
 					Pessoa pessoaClicked = (Pessoa) jListPessoas.getSelectedValue();
+					
 					System.out.println(pessoaClicked);
 				}
 				
@@ -151,7 +151,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		
 		if (clicked == btnNovo) {
 			tbListener.buttomEventCurrent("Novo");
-			//System.out.println("novo");
+			jListPessoas.setSelectedIndex(-1);
 		} else if (e.getSource() == btnEditar) {
 			tbListener.buttomEventCurrent("Editar", (Pessoa) jListPessoas.getSelectedValue());
 			//System.out.println("editar " + jListPessoas.getSelectedValue());
