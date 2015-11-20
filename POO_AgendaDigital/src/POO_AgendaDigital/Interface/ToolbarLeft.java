@@ -2,12 +2,13 @@ package POO_AgendaDigital.Interface;
 
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import javax.swing.event.MouseInputListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
-import POO_AgendaDigital.Interface.Listeners.IMouseInputListener;
+import POO_AgendaDigital.Interface.Listeners.IListListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -23,7 +24,6 @@ import javax.swing.ListSelectionModel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -36,6 +36,8 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 	private JTextField txtTes;
 	public DefaultListModel<Pessoa> model;
 	private ILeftToolbarListener tbListener;
+	private IListListener listListener;
+	private Calendario calendario;
 	
 	public boolean getVisiblePanel;
 
@@ -70,6 +72,8 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 			model.add(i, SQLite.getPessoaByIndex(i));
 		}
 
+		
+		
 		jListPessoas = new JList(model);
 		jListPessoas.setForeground(Color.BLACK);
 		jListPessoas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -77,7 +81,22 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		jListPessoas.setFont(new Font("Simplified Arabic Fixed", Font.BOLD, 17));
 		jListPessoas.setBackground(new Color(240, 240, 240));
 		jListPessoas.setBounds(0, 144, 245, 545);
-
+		
+		jListPessoas.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				
+				listListener.valueChange(jListPessoas.getSelectedValue());
+				
+//				calendario = new Calendario();
+//				calendario.setBounds(0, 101, 201, 32);
+//				calendario.setVisible(true);
+//				
+//				add(calendario);
+				
+			}
+		});
+		
 		// EndRegion
 
 		// Region Label e Input
@@ -125,20 +144,25 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 					getVisiblePanel = true;
 					Pessoa pessoaClicked = (Pessoa) jListPessoas.getSelectedValue();
 					
-					System.out.println(pessoaClicked);
+					
 				}
 				
 			}
 		});
 
-		add(btnNovo);
-		add(btnEditar);
-		add(jListPessoas);
-		add(lblPessoas);
-		add(txtTes);
+		this.add(btnNovo);
+		this.add(btnEditar);
+		this.add(jListPessoas);
+		this.add(lblPessoas);
+		this.add(txtTes);
+		
 
 		setVisible(true);
 
+	}
+	
+	public void setListListener(IListListener listListener){
+		this.listListener = listListener;
 	}
 	
 	public void setLeftToolbarListener(ILeftToolbarListener tbListener){
@@ -152,6 +176,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		if (clicked == btnNovo) {
 			tbListener.buttomEventCurrent("Novo");
 			jListPessoas.setSelectedIndex(-1);
+			
 		} else if (e.getSource() == btnEditar) {
 			tbListener.buttomEventCurrent("Editar", (Pessoa) jListPessoas.getSelectedValue());
 			//System.out.println("editar " + jListPessoas.getSelectedValue());

@@ -20,6 +20,10 @@ public class Pessoa {
 
 	// Region - GETTERS
 	
+	public Pessoa() {
+		this.PessoaId = 0;
+	}
+
 	/**
 	 * Método para receber o ID da Pessoa.
 	 * @return PessoaId
