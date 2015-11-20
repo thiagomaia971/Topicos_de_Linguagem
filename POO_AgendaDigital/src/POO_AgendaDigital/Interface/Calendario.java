@@ -2,7 +2,10 @@ package POO_AgendaDigital.Interface;
 
 import java.awt.Color;
 import javax.swing.JPanel;
+
+import POO_AgendaDigital.Core.Compromisso;
 import POO_AgendaDigital.Core.Pessoa;
+import POO_AgendaDigital.Infraestrutura.SQLite;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -14,11 +17,13 @@ public class Calendario extends JPanel {
 
 	private JLabel lblTest;
 	private JTable table;
-	Object rowData[][];
-	Object columnNames[];
+	private Compromisso rowData[][];
+	private Object columnNames[];
 			
+	private Pessoa Pessoa;
 
 	public Calendario() {
+		
 		this.setBackground(new Color(240, 240, 240));
 		this.setLayout(null);
 		this.setVisible(true);
@@ -30,9 +35,8 @@ public class Calendario extends JPanel {
 		lblTest.setBounds(10, 11, 772, 62);
 		
 		
-		rowData = new Object[][]{{ "row1-column1", "row1-column2" },
-					{ "row2-column1", "row2-column2"}};
-		columnNames = new Object[]{ "column one", "column two" };
+		columnNames = new Object[]{ "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO", "DOMINGO" };
+		
 		
 		table = new JTable(rowData, columnNames);
 		table.setBounds(20, 84, 750, 463);
@@ -44,4 +48,17 @@ public class Calendario extends JPanel {
 	public void setPessoaClickada(Pessoa pessoaClickada) {
 		lblTest.setText(pessoaClickada.getNome());
 	}
+	
+	private void populandoTabela(){
+		SQLite.getPessoaByName(Pessoa.getNome());
+		
+		for(int i = 0; i < SQLite.qtdePessoasRegistradas(); i++){
+			for(int j = 0; j < SQLite.qtdePessoasRegistradas(); j++){
+				
+			}
+		}
+		//rowData = new Compromisso[][]{{ , "row1-column2" },
+			//{ "row2-column1", "row2-column2"}};
+	}
+	
 }

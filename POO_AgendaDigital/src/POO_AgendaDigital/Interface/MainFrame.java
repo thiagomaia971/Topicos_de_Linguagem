@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JList;
 
+import POO_AgendaDigital.Core.Compromisso;
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
@@ -58,6 +59,8 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 
+		SQLite.insertCompromisso(new Compromisso(1, 1, "Faculdade", 246, "7:30", "12:00"));
+		
 		isCreatePanelActive = false;
 		isEditPanelActive = false;
 		isCalendarioPanelActive = false;

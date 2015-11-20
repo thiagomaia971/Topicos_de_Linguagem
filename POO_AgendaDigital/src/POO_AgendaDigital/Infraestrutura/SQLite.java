@@ -95,6 +95,24 @@ public class SQLite {
 		return null;
 	}
 
+	public static Pessoa getPessoaByName(String Name) {
+		ResultSet rs;
+		try {
+			stm = conn.createStatement();
+			rs = stm.executeQuery("SELECT * FROM Pessoa WHERE Pessoa.Nome='" + Name + "'");
+			while (rs.next()) {
+				return new Pessoa(rs.getInt("PessoaId"), rs.getString("Nome"), rs.getInt("Idade"),
+						rs.getString("DataNasc"));
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 * Método para inserir um compromisso no Banco de Dados.
 	 * 
@@ -128,6 +146,29 @@ public class SQLite {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	public static ArrayList<Compromisso> getCompromissoSegunda() {
+		ArrayList<Compromisso> compromissosSeg = new ArrayList<Compromisso>();
+		int cont = 0;
+		ResultSet rs;
+		try {
+			stm = conn.createStatement();
+			rs = stm.executeQuery("SELECT * FROM [Compromisso] AS c INNER JOIN Pessoa AS p ON c.PessoaId = p.PessoaId");
+
+			while (rs.next()) {
+				compromissosSeg.add(cont, new Compromisso(rs.getInt("CompromissoId"), rs.getInt("PessoaId"),
+						rs.getString("NomeCompromisso"), rs.getInt("Dias"), rs.getString("HoraInicial"), rs.getString("HoraFinal")));
+
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return compromissosSeg;
 	}
 
 	/**
