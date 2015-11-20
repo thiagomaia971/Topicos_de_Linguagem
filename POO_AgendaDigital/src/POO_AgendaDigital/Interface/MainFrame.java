@@ -7,26 +7,28 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
 import POO_AgendaDigital.Interface.Listeners.IListListener;
+import POO_AgendaDigital.Services.Services;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 
-	private ToolbarLeft tbLeft;
 	private ToolbarTop tbTop;
-	private PanelCreatePessoa pnCreatePessoa;
-	private PanelEditPessoa pnEditPessoa;
-	private Calendario calendario;
+	public static ToolbarLeft tbLeft;
+	public static PanelCreatePessoa pnCreatePessoa;
+	public static PanelEditPessoa pnEditPessoa;
+	public static Calendario calendario;
 
 	private static String pathDb;
 
-	boolean isCreatePanelActive;
-	boolean isEditPanelActive;
-	boolean isCalendarioPanelActive;
+	public static boolean isCreatePanelActive;
+	public static boolean isEditPanelActive;
+	public static boolean isCalendarioPanelActive;
 
 	/**
 	 * Create the frame.
@@ -64,50 +66,15 @@ public class MainFrame extends JFrame {
 		pnEditPessoa = new PanelEditPessoa();
 		pnCreatePessoa = new PanelCreatePessoa();
 		calendario = new Calendario();
-
+		
+		Services.setJFrame(this);
+	
 		tbLeft.setLeftToolbarListener(new ILeftToolbarListener() {
 
 			@Override
 			public void buttomEventCurrent(String e, Pessoa... Pessoa) {
-		
-				switch (e) {
-				case "Novo":
-					isCreatePanelActive = true;
-					pnCreatePessoa.setVisible(true);
-
-					isEditPanelActive = false;
-					pnEditPessoa.setVisible(false);
-
-					isCalendarioPanelActive = false;
-					calendario.setVisible(false);
-
-					pnCreatePessoa.setBounds(250, 80, 802, 595);
-					getContentPane().add(pnCreatePessoa);
-
-					break;
-
-				case "Editar":
-					
-					isCreatePanelActive = false;
-					pnCreatePessoa.setVisible(false);
-
-					isEditPanelActive = true;
-					pnEditPessoa.setVisible(true);
-
-					isCalendarioPanelActive = false;
-					calendario.setVisible(false);
-
-					pnEditPessoa.setModel(tbLeft.model);
-					pnEditPessoa.setBounds(250, 80, 802, 595);
-					getContentPane().add(pnEditPessoa);
-
-					pnEditPessoa.setPessoaClickada(Pessoa[0]);
-
-					break;
-
-				default:
-					break;
-				}
+				
+				Services.SwitchPanelService(e, Pessoa);
 
 				revalidate();
 				repaint();

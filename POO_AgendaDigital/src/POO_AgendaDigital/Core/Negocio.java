@@ -8,6 +8,7 @@ public class Negocio {
 		
 		for(int i = 0; i < str.length(); i++){
 			try {
+				@SuppressWarnings("unused")
 				int convert = Integer.parseInt(new Character(str.charAt(i)).toString());
 				isString = false;
 			} catch (NumberFormatException e) {

@@ -3,9 +3,9 @@ package POO_AgendaDigital.Interface;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JButton;
-import java.awt.SystemColor;
 import java.awt.Font;
 
+@SuppressWarnings("serial")
 public class ToolbarTop extends JPanel {
 
 	/**

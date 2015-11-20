@@ -13,7 +13,6 @@ import javax.swing.JTable;
 public class Calendario extends JPanel {
 
 	private JLabel lblTest;
-	private Pessoa pessoaClickada;
 	private JTable table;
 	Object rowData[][];
 	Object columnNames[];
