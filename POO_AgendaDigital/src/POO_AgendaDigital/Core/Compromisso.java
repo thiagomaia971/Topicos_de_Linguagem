@@ -2,13 +2,13 @@ package POO_AgendaDigital.Core;
 
 import java.util.ArrayList;
 
-
 public class Compromisso {
+	
 	private final int CompromissoId;
 	private final int PessoaId;
 	private String NomeCompromisso;
-	private int Dias;
-	//private ArrayList<Integer> Dias;
+	//private int Dias;
+	private ArrayList<Integer> Dias;
 	private String horaInicial;
 	private String horaFinal;
 
@@ -25,36 +25,33 @@ public class Compromisso {
 		this.horaFinal = horaFinal;
 
 	}*/
-
-	// Region GETTERS
-
+	
+	public Compromisso(){
+		CompromissoId = 0;
+		PessoaId = 0;
+	}
+	
 	public Compromisso(int CompromissoId, int PessoaId, String NomeCompromisso, int dias, String horaInicial,
 			String horaFinal) {
 		this.CompromissoId = CompromissoId;
 		this.PessoaId = PessoaId;
 		this.NomeCompromisso = NomeCompromisso;
-		//this.Dias = new ArrayList<Integer>();
-
-//		this.Dias.add(dias/10);
-//		this.Dias.add(dias/10);
-//		this.Dias.add(dias/10);
-//		this.Dias.add(dias/10);
 		
-		int contDias = 0;
-		while(dias%10 > 0){
-			this.Dias += (dias%10);
-			dias = dias/10;
-		}
+		this.Dias = Negocio.returnListDias(dias);
+		
 		this.horaInicial = horaInicial;
 		this.horaFinal = horaFinal;
 		
 	}
 
+	// Region GETTERS
+
+
 	public String getNomeCompromisso() {
 		return NomeCompromisso;
 	}
 
-	public int getDias() {
+	public ArrayList<Integer> getDias() {
 		return Dias;
 	}
 

@@ -1,5 +1,9 @@
 package POO_AgendaDigital.Core;
 
+import java.util.ArrayList;
+
+import POO_AgendaDigital.Infraestrutura.SQLite;
+
 public class Negocio {
 	
 	
@@ -18,5 +22,17 @@ public class Negocio {
 		return isString;
 	}
 	
+	
+	
+	public static ArrayList<Integer> returnListDias(int dias){
+		ArrayList<Integer> Dias = new ArrayList<Integer>();
+		
+		while(dias%10 > 0){
+			Dias.add((dias%10));
+			dias = dias/10;
+		}
+		
+		return Dias;
+	}
 	
 }

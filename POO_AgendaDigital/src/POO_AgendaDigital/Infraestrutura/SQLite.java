@@ -62,8 +62,9 @@ public class SQLite {
 			rs.close();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
+
 		return auxPessoas;
 	}
 
@@ -89,9 +90,9 @@ public class SQLite {
 			rs.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 
@@ -107,9 +108,9 @@ public class SQLite {
 			rs.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 
@@ -122,13 +123,11 @@ public class SQLite {
 
 		try {
 			stm = conn.createStatement();
-			stm.executeUpdate(
-					"INSERT INTO [Compromisso](CompromissoId, PessoaId, NomeCompromisso, Dias, HoraInicial, HoraFinal) "
-							+ "VALUES (" + Compromisso.getCompromissoId() + ", " + Compromisso.getPessoaId() + ", '"
-							+ Compromisso.getNomeCompromisso() + "', " + Compromisso.getDias() + ", '"
-							+ Compromisso.getHoraInicial() + "', '" + Compromisso.getHoraFinal() + "')");
+			stm.executeUpdate("INSERT INTO [Compromisso](PessoaId, NomeCompromisso, Dias, HoraInicial, HoraFinal) "
+					+ "VALUES (" + Compromisso.getPessoaId() + ", '" + Compromisso.getNomeCompromisso() + "', "
+					+ Compromisso.getDias() + ", '" + Compromisso.getHoraInicial() + "', '" + Compromisso.getHoraFinal()
+					+ "')");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -144,31 +143,31 @@ public class SQLite {
 			stm.executeUpdate("UPDATE [Pessoa] SET Nome = '" + Pessoa.getNome() + "', Idade = " + Pessoa.getIdade()
 					+ ", DataNasc = '" + Pessoa.getDataNascimento() + "' WHERE Pessoa.PessoaId = " + Id + "");
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
-	public static ArrayList<Compromisso> getCompromissoSegunda() {
-		ArrayList<Compromisso> compromissosSeg = new ArrayList<Compromisso>();
-		int cont = 0;
+	public static ArrayList<Compromisso> getCompromisso() {
+		ArrayList<Compromisso> compromissos = new ArrayList<Compromisso>();
+
 		ResultSet rs;
 		try {
 			stm = conn.createStatement();
 			rs = stm.executeQuery("SELECT * FROM [Compromisso] AS c INNER JOIN Pessoa AS p ON c.PessoaId = p.PessoaId");
 
 			while (rs.next()) {
-				compromissosSeg.add(cont, new Compromisso(rs.getInt("CompromissoId"), rs.getInt("PessoaId"),
-						rs.getString("NomeCompromisso"), rs.getInt("Dias"), rs.getString("HoraInicial"), rs.getString("HoraFinal")));
+				compromissos.add(new Compromisso(rs.getInt("CompromissoId"), rs.getInt("PessoaId"),
+						rs.getString("NomeCompromisso"), rs.getInt("Dias"), rs.getString("HoraInicial"),
+						rs.getString("HoraFinal")));
 
 			}
 			rs.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return compromissosSeg;
+		return compromissos;
 	}
 
 	/**
@@ -181,13 +180,12 @@ public class SQLite {
 		ResultSet rs;
 
 		try {
-			// stm = conn.createStatement();
+			stm = conn.createStatement();
 			rs = stm.executeQuery("SELECT COUNT(Pessoa.PessoaId) AS qtdePessoas FROM [Pessoa]");
 			qtdePessoas = rs.getInt("qtdePessoas");
 
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

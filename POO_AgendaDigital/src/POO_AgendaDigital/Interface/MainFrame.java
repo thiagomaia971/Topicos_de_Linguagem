@@ -58,8 +58,6 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 
-		SQLite.insertCompromisso(new Compromisso(1, 1, "Faculdade", 246, "7:30", "12:00"));
-		
 		isCreatePanelActive = false;
 		isEditPanelActive = false;
 		isCalendarioPanelActive = false;
