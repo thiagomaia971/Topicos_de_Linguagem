@@ -35,7 +35,7 @@ public class SQLite {
 		try {
 			stm = conn.createStatement();
 			stm.executeUpdate("INSERT INTO Pessoa (Nome, DataNasc, Idade) " + "VALUES ('" + pessoa.getNome() + "', '"
-					+ pessoa.getDataNascimento() + "', " + pessoa.getIdade() + ")");
+					+ pessoa.getDataNascimento());
 			// stm.cancel();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,8 +56,7 @@ public class SQLite {
 			stm = conn.createStatement();
 			rs = stm.executeQuery("SELECT * FROM Pessoa");
 			while (rs.next()) {
-				auxPessoas.add(new Pessoa(rs.getInt("PessoaId"), rs.getString("Nome"), rs.getInt("Idade"),
-						rs.getString("DataNasc")));
+				auxPessoas.add(new Pessoa(rs.getInt("PessoaId"), rs.getString("Nome"), rs.getString("DataNasc")));
 			}
 			rs.close();
 
@@ -82,8 +81,7 @@ public class SQLite {
 			rs = stm.executeQuery("SELECT * FROM Pessoa");
 			while (rs.next()) {
 				if (auxIndex == Index) {
-					return new Pessoa(rs.getInt("PessoaId"), rs.getString("Nome"), rs.getInt("Idade"),
-							rs.getString("DataNasc"));
+					return new Pessoa(rs.getInt("PessoaId"), rs.getString("Nome"), rs.getString("DataNasc"));
 				}
 				auxIndex++;
 			}
@@ -102,8 +100,7 @@ public class SQLite {
 			stm = conn.createStatement();
 			rs = stm.executeQuery("SELECT * FROM Pessoa WHERE Pessoa.Nome='" + Name + "'");
 			while (rs.next()) {
-				return new Pessoa(rs.getInt("PessoaId"), rs.getString("Nome"), rs.getInt("Idade"),
-						rs.getString("DataNasc"));
+				return new Pessoa(rs.getInt("PessoaId"), rs.getString("Nome"), rs.getString("DataNasc"));
 			}
 			rs.close();
 
@@ -140,8 +137,8 @@ public class SQLite {
 	public static void updatePessoa(int Id, Pessoa Pessoa) {
 		try {
 			stm = conn.createStatement();
-			stm.executeUpdate("UPDATE [Pessoa] SET Nome = '" + Pessoa.getNome() + "', Idade = " + Pessoa.getIdade()
-					+ ", DataNasc = '" + Pessoa.getDataNascimento() + "' WHERE Pessoa.PessoaId = " + Id + "");
+			stm.executeUpdate("UPDATE [Pessoa] SET Nome = '" + Pessoa.getNome() + "DataNasc = '"
+					+ Pessoa.getDataNascimento() + "' WHERE Pessoa.PessoaId = " + Id + "");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -198,7 +195,7 @@ public class SQLite {
 
 			// Pessoa
 			stm.executeUpdate("CREATE TABLE IF NOT EXISTS Pessoa (PessoaId INTEGER PRIMARY KEY"
-					+ ", Nome VARCHAR(30) NOT NULL, DataNasc VARCHAR(10) NOT NULL, Idade INTEGER NOT NULL)");
+					+ ", Nome VARCHAR(30) NOT NULL, DataNasc VARCHAR(10) NOT NULL)");
 
 			// Compromisso
 			stm.executeUpdate("CREATE TABLE IF NOT EXISTS [Compromisso] (CompromissoId INTEGER PRIMARY KEY"

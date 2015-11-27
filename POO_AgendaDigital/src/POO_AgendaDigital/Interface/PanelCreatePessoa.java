@@ -15,6 +15,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -28,10 +30,12 @@ public class PanelCreatePessoa extends JPanel {
 	private JTextField inputNome;
 	private JTextField inputIdade;
 	private JTextField inputDataNascimento;
-	
+
 	private JButton btnNovo;
-	
-	public DefaultListModel<Pessoa> model;
+
+	public static DefaultListModel<Pessoa> _model;
+
+	private int cont = 0;
 
 	/**
 	 * Create the panel.
@@ -52,10 +56,12 @@ public class PanelCreatePessoa extends JPanel {
 		inputNome = new JTextField();
 		inputNome.setBounds(263, 154, 293, 26);
 		inputNome.setColumns(10);
+		inputNome.addKeyListener(alphabeticOnlyAdapter());
 
 		inputIdade = new JTextField();
 		inputIdade.setColumns(10);
 		inputIdade.setBounds(263, 228, 293, 26);
+		inputIdade.addKeyListener(digitOnlyAdapter());
 
 		lblIdade = new JLabel("Idade: ");
 		lblIdade.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,6 +71,7 @@ public class PanelCreatePessoa extends JPanel {
 		inputDataNascimento = new JTextField();
 		inputDataNascimento.setColumns(10);
 		inputDataNascimento.setBounds(263, 322, 293, 26);
+		inputDataNascimento.addKeyListener(digitOnlyAdapter());
 
 		lblDataDeNascimento = new JLabel("Data de Nascimento: ");
 		lblDataDeNascimento.setHorizontalAlignment(SwingConstants.CENTER);
@@ -78,28 +85,21 @@ public class PanelCreatePessoa extends JPanel {
 		this.add(inputNome);
 		this.add(inputIdade);
 		this.add(inputDataNascimento);
-		
+
 		btnNovo = new JButton("Novo");
-		
+
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				String nomeStr = inputNome.getText();
-				
-				if(nomeStr.length() > 0){
-					if(Negocio.isString(nomeStr)){
-						
-						SQLite.insertPessoa(new Pessoa(0, inputNome.getText(), Integer.parseInt(inputIdade.getText()),
-								inputDataNascimento.getText()));
-						model.removeAllElements();
-						for (int i = 0; i < SQLite.qtdePessoasRegistradas(); i++) {
-							model.add(i, SQLite.getPessoaByIndex(i));
-						}
-						
-					}else{
-						JOptionPane.showMessageDialog(null, "Não é possível ter número no seu Nome");
-					}
-					
-				}else{
+
+				if (nomeStr.length() > 0) {
+					Pessoa newPessoa = new Pessoa(0, inputNome.getText(), inputDataNascimento.getText());
+					SQLite.insertPessoa(newPessoa);
+
+					_model.addElement(newPessoa);
+
+				} else {
 					JOptionPane.showMessageDialog(null, "Informe o seu Nome");
 				}
 			}
@@ -111,10 +111,49 @@ public class PanelCreatePessoa extends JPanel {
 
 		this.setVisible(true);
 
-		
 	}
-	
-	public void setModel(DefaultListModel<Pessoa> model){
-		this.model = model;
+
+	private KeyAdapter digitOnlyAdapter() {
+		KeyAdapter keyAdapter = new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				JTextField s = (JTextField) e.getSource();
+
+				if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+					s.setText("");
+				}
+
+				if (!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				} else {
+					cont++;
+				}
+
+				if (s.getText().length() == 2 || s.getText().length() == 5) {
+					s.setText(s.getText() + "/");
+				}
+				if (s.getText().length() > 9) {
+					e.consume();
+				}
+			}
+		};
+
+		return keyAdapter;
+	}
+
+	private KeyAdapter alphabeticOnlyAdapter() {
+		KeyAdapter keyAdapter = new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+
+				if (!Character.isAlphabetic(e.getKeyChar())) {
+					e.consume();
+				}
+			}
+		};
+
+		return keyAdapter;
+	}
+
+	public static void setModel(DefaultListModel<Pessoa> model) {
+		_model = model;
 	}
 }

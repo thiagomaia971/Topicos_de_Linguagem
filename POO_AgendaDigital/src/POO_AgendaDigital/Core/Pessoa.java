@@ -5,14 +5,12 @@ import java.util.ArrayList;
 public class Pessoa {
 	private final int PessoaId;
 	private String Nome;
-	private int Idade;
 	private String DataNascimento;
 	private ArrayList<Compromisso> Compromissos;
 
-	public Pessoa(int PessoaId, String Nome, int Idade, String DataNascimento) {
+	public Pessoa(int PessoaId, String Nome, String DataNascimento) {
 		this.PessoaId = PessoaId;
 		this.Nome = Nome;
-		this.Idade = Idade;
 		this.DataNascimento = DataNascimento;
 		Compromissos = new ArrayList<Compromisso>();
 
@@ -38,14 +36,6 @@ public class Pessoa {
 	 */
 	public String getNome() {
 		return Nome;
-	}
-
-	/**
-	 * Método para receber a Idade da Pessoa.
-	 * @return Idade
-	 */
-	public int getIdade() {
-		return Idade;
 	}
 
 	/**
@@ -90,14 +80,6 @@ public class Pessoa {
 	 */
 	public void setDataNascimento(String DataNascimento) {
 		this.DataNascimento = DataNascimento;
-	}
-
-	/**
-	 * Método para inserir uma Idade de uma Pessoa.
-	 * @param Nome
-	 */
-	public void setIdade(int Idade) {
-		this.Idade = Idade;
 	}
 
 	// EndRegion

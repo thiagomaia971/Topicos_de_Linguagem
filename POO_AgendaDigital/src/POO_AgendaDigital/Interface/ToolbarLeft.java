@@ -79,7 +79,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		for (int i = 0; i < SQLite.qtdePessoasRegistradas(); i++) {
 			model.add(i, SQLite.getPessoaByIndex(i));
 		}
-
+		PanelCreatePessoa.setModel(model);
 		
 		
 		jListPessoas = new JList<Pessoa>(model);

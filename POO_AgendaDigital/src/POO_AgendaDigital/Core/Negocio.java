@@ -34,5 +34,22 @@ public class Negocio {
 		
 		return Dias;
 	}
+
+
+
+	public static boolean isInteger(String idadeStr) {
+		boolean isInteger = true;
+		
+		
+		for(int i = 0; i < idadeStr.length(); i++){
+			try {
+				int convert = Integer.parseInt(new Character(idadeStr.charAt(i)).toString());
+			} catch (Exception e) {
+				isInteger = false;
+			}
+		}
+		
+		return isInteger;
+	}
 	
 }

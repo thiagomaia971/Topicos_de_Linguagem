@@ -74,6 +74,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void buttomEventCurrent(String e, Pessoa... Pessoa) {
 				
+				pnCreatePessoa = new PanelCreatePessoa();
 				Services.SwitchPanelService(e, Pessoa);
 
 				revalidate();
