@@ -1,11 +1,11 @@
 package MainProgramm;
 
-import Graphic.Main;
+import Graphic.MainFrame;
 
 public class MainProgramm {
 
 	public static void main(String[] args) {
-		Main main = new Main();
+		MainFrame main = new MainFrame();
 	}
 
 }
