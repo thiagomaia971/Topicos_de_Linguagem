@@ -1,13 +1,25 @@
 package POO_AgendaDigital.Interface;
 
 import javax.swing.JPanel;
+
+import POO_AgendaDigital.Core.Pessoa;
+import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
+
 import java.awt.Color;
+
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 @SuppressWarnings("serial")
-public class ToolbarTop extends JPanel {
+public class ToolbarTop extends JPanel implements ActionListener{
 
+	public static JButton btnHorarioEstudo;
+	public static JButton btnCompromisso;
+	
+	private ILeftToolbarListener tbLeftListener;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -15,16 +27,59 @@ public class ToolbarTop extends JPanel {
 		setBackground(Color.DARK_GRAY);
 		setLayout(null);
 		
-		JButton btnNewButton = new JButton("Calendario");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnNewButton.setBounds(251, 19, 143, 35);
-		add(btnNewButton);
+		btnHorarioEstudo = new JButton("Estudo");
+		btnHorarioEstudo.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnHorarioEstudo.setBackground(new Color(100, 149, 237));
+		btnHorarioEstudo.setForeground(Color.WHITE);
+		btnHorarioEstudo.setBounds(251, 19, 143, 35);
 		
-		JButton btnCompromisso = new JButton("Compromisso");
+		btnCompromisso = new JButton("Compromisso");
 		btnCompromisso.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnCompromisso.setBackground(Color.WHITE);
+		btnCompromisso.setForeground(new Color(100, 149, 237));
 		btnCompromisso.setBounds(391, 19, 143, 35);
+		
+		btnHorarioEstudo.addActionListener(this);
+		btnCompromisso.addActionListener(this);
+		
+		add(btnHorarioEstudo);
 		add(btnCompromisso);
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		JButton buttonClicked = (JButton) arg0.getSource();
+		
+		if(buttonClicked == btnHorarioEstudo){
+			Pessoa pessoaSelected = (Pessoa) ToolbarLeft.jListPessoas.getSelectedValue();
+			tbLeftListener.buttomEventCurrent("HorarioEstudo", pessoaSelected);
+			
+			btnHorarioEstudo.setBackground(new Color(100, 149, 237));
+			btnHorarioEstudo.setForeground(Color.WHITE);
+			
+			btnCompromisso.setBackground(Color.WHITE);
+			btnCompromisso.setForeground(new Color(100, 149, 237));
+			
+		}else if(buttonClicked == btnCompromisso){
+			tbLeftListener.buttomEventCurrent("TodosCompromissos");
+			
+			btnHorarioEstudo.setBackground(Color.WHITE);
+			btnHorarioEstudo.setForeground(new Color(100, 149, 237));
+			
+			btnCompromisso.setBackground(new Color(100, 149, 237));
+			btnCompromisso.setForeground(Color.WHITE);
+		}	
+		
+		ToolbarLeft.btnNovo.setBackground(Color.WHITE);
+		ToolbarLeft.btnNovo.setForeground(new Color(100, 149, 237));
+		
+		ToolbarLeft.btnNovo.setBackground(Color.WHITE);
+		ToolbarLeft.btnNovo.setForeground(new Color(100, 149, 237));
+	}
+	
+	public void setListListener(ILeftToolbarListener tbListener){
+		this.tbLeftListener = tbListener;
 	}
 
 }

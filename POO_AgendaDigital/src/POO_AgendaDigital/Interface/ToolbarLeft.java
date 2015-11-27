@@ -2,8 +2,6 @@ package POO_AgendaDigital.Interface;
 
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -17,32 +15,23 @@ import javax.swing.JButton;
 import javax.swing.JList;
 
 import java.awt.Color;
-import java.awt.Container;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Point;
-
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.HierarchyListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 @SuppressWarnings("serial")
 public class ToolbarLeft extends JPanel implements ActionListener{
 
-	private JButton btnNovo;
-	private JButton btnEditar;
-	private JList<Pessoa> jListPessoas;
+	public static JButton btnNovo;
+	public static JButton btnEditar;
+	
+	public static JList<Pessoa> jListPessoas;
 	private JTextField txtTes;
 	public DefaultListModel<Pessoa> model;
 	private ILeftToolbarListener tbListener;
@@ -58,7 +47,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 
 		this.setBackground(new Color(240, 240, 240));
 		this.setLayout(null);
-		this.setBorder(new MatteBorder(0, 0, 0, 1, (Color) SystemColor.activeCaption));
+		this.setBorder(new MatteBorder(0, 0, 0, 1, SystemColor.activeCaption));
 
 		// EndRegion
 
@@ -66,10 +55,14 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 
 		btnNovo = new JButton("Novo");
 		btnNovo.setBounds(10, 11, 83, 32);
+		btnNovo.setBackground(Color.WHITE);
+		btnNovo.setForeground(new Color(100, 149, 237));
 
 		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(144, 11, 89, 32);
-
+		btnEditar.setBackground(Color.WHITE);
+		btnEditar.setForeground(new Color(100, 149, 237));
+		
 		// EndRegion
 
 		// Region JList
@@ -80,6 +73,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 			model.add(i, SQLite.getPessoaByIndex(i));
 		}
 		PanelCreatePessoa.setModel(model);
+		PanelEditPessoa.setModel(model);
 		
 		
 		jListPessoas = new JList<Pessoa>(model);
@@ -89,27 +83,21 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		jListPessoas.setFont(new Font("Simplified Arabic Fixed", Font.BOLD, 17));
 		jListPessoas.setBackground(new Color(240, 240, 240));
 		jListPessoas.setBounds(0, 144, 245, 545);
+		btnEditar.setVisible(!jListPessoas.isSelectionEmpty());
 		
 		jListPessoas.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				
 				listListener.valueChange(jListPessoas.getSelectedValue());
+				ToolbarTop.btnHorarioEstudo.setBackground(new Color(100, 149, 237));
+				ToolbarTop.btnHorarioEstudo.setForeground(Color.WHITE);
 				
-			}
-		});
-		jListPessoas.addMouseMotionListener(new MouseMotionListener() {
-			
-			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				Container a = arg0.getComponent().getParent();
-				//a.
-			}
-			
-			@Override
-			public void mouseDragged(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-//				Point s  = arg0.getComponent().getLocationOnScreen();
+				ToolbarTop.btnCompromisso.setBackground(Color.WHITE);
+				ToolbarTop.btnCompromisso.setForeground(new Color(100, 149, 237));
+				
+				btnNovo.setBackground(Color.WHITE);
+				btnNovo.setForeground(new Color(100, 149, 237));
 			}
 		});
 		
@@ -155,12 +143,30 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		JButton clicked = (JButton) e.getSource();
 		
 		if (clicked == btnNovo) {
-			tbListener.buttomEventCurrent("Novo");
+			tbListener.buttomEventCurrent("NovaPessoa");
 			jListPessoas.setSelectedIndex(-1);
 			
-		} else if (e.getSource() == btnEditar) {
-			tbListener.buttomEventCurrent("Editar", (Pessoa) jListPessoas.getSelectedValue());
-			//System.out.println("editar " + jListPessoas.getSelectedValue());
+			btnNovo.setBackground(new Color(100, 149, 237));
+			btnNovo.setForeground(Color.WHITE);
+			
+			btnEditar.setBackground(Color.WHITE);
+			btnEditar.setForeground(new Color(100, 149, 237));
+			
+			ToolbarTop.btnCompromisso.setBackground(Color.WHITE);
+			ToolbarTop.btnCompromisso.setForeground(new Color(100, 149, 237));
+			
+			ToolbarTop.btnHorarioEstudo.setBackground(Color.WHITE);
+			ToolbarTop.btnHorarioEstudo.setForeground(new Color(100, 149, 237));
+			
+			
+		} else if (clicked == btnEditar) {
+			tbListener.buttomEventCurrent("EditarPessoa", jListPessoas.getSelectedValue());
+			
+			btnNovo.setBackground(Color.WHITE);
+			btnNovo.setForeground(new Color(100, 149, 237));
+			
+			btnEditar.setBackground(new Color(100, 149, 237));
+			btnEditar.setForeground(Color.WHITE);
 		}
 	}
 

@@ -1,6 +1,7 @@
 
 package POO_AgendaDigital.Interface;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
@@ -8,7 +9,6 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import POO_AgendaDigital.Core.Compromisso;
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
@@ -20,19 +20,25 @@ public class MainFrame extends JFrame {
 
 	private ToolbarTop tbTop;
 	public static ToolbarLeft tbLeft;
+	
 	public static PanelCreatePessoa pnCreatePessoa;
 	public static PanelEditPessoa pnEditPessoa;
-	public static Calendario calendario;
+	public static PanelHorarioEstudo pnHorarioEstudo;
+	public static PanelAllCompromisso pnAllCompromisso;
+	public static PanelCreateCompromisso pnCreateCompromisso;
 
 	private static String pathDb;
 
 	public static boolean isCreatePanelActive;
 	public static boolean isEditPanelActive;
-	public static boolean isCalendarioPanelActive;
+	public static boolean isHorarioEstudoPanelActive;
+	public static boolean isAllCompromissoPanelActive;
+	public static boolean isCreateCompromissoPanelActive;
 
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("static-access")
 	public MainFrame() {
 
 		// Region - MainFrame Config
@@ -58,23 +64,31 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 
+		
 		isCreatePanelActive = false;
 		isEditPanelActive = false;
-		isCalendarioPanelActive = false;
+		isHorarioEstudoPanelActive = false;
+		isAllCompromissoPanelActive = false;
+		isCreateCompromissoPanelActive = false;
 
 		tbLeft = new ToolbarLeft();
+		Pessoa pessoaClicked =(Pessoa) ToolbarLeft.jListPessoas.getSelectedValue();
 		pnEditPessoa = new PanelEditPessoa();
 		pnCreatePessoa = new PanelCreatePessoa();
-		calendario = new Calendario();
+		pnAllCompromisso = new PanelAllCompromisso();
+		pnCreateCompromisso = new PanelCreateCompromisso();
+		pnHorarioEstudo = new PanelHorarioEstudo(pessoaClicked);
+		
+		
 		
 		Services.setJFrame(this);
-	
+
 		tbLeft.setLeftToolbarListener(new ILeftToolbarListener() {
 
 			@Override
 			public void buttomEventCurrent(String e, Pessoa... Pessoa) {
-				
-				pnCreatePessoa = new PanelCreatePessoa();
+
+				//pnCreatePessoa = new PanelCreatePessoa();
 				Services.SwitchPanelService(e, Pessoa);
 
 				revalidate();
@@ -88,28 +102,78 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void valueChange(Pessoa PessoaClickada) {
-				if(isCreatePanelActive){
-					pnCreatePessoa.setVisible(false);
-				}else if(isEditPanelActive){
-					pnEditPessoa.setVisible(false);
-				}
 				
-				isCalendarioPanelActive = true;
-				calendario.setVisible(isCalendarioPanelActive);
-				calendario.setBounds(250, 70, 792, 558);
-				calendario.setPessoaClickada(PessoaClickada);
-				
-				getContentPane().add(calendario);
+				pnCreatePessoa.setVisible(false);
+				pnEditPessoa.setVisible(false);
+				pnAllCompromisso.setVisible(false);
+
+				isHorarioEstudoPanelActive = true;
+				pnHorarioEstudo.setVisible(isHorarioEstudoPanelActive);
+				pnHorarioEstudo.setBounds(250, 70, 792, 558);
+				pnHorarioEstudo.setPessoaClickada(PessoaClickada);
+
+				getContentPane().add(pnHorarioEstudo);
 				revalidate();
 				repaint();
 
 			}
 		});
+		
+		
+		
 		tbTop = new ToolbarTop();
 
+		tbTop.setListListener(new ILeftToolbarListener() {
+			
+			@Override
+			public void buttomEventCurrent(String e, Pessoa... Pessoa) {
+				
+				Services.SwitchPanelService(e, Pessoa);
+				
+				repaint();
+				revalidate();
+				
+			}
+		});
+		
 		tbLeft.setBounds(0, 0, 250, 595);
 		tbTop.setBounds(250, 0, 802, 80);
 
+		if(ToolbarLeft.jListPessoas.isSelectionEmpty()){
+			isCreatePanelActive = true;
+			
+			pnCreatePessoa.setBounds(250, 80, 802, 595);
+			this.getContentPane().add(pnCreatePessoa);
+			
+			tbLeft.btnNovo.setBackground(new Color(100, 149, 237));
+			tbLeft.btnNovo.setForeground(Color.WHITE);
+			
+			tbTop.btnCompromisso.setBackground(Color.WHITE);
+			tbTop.btnCompromisso.setForeground(new Color(100, 149, 237));
+			
+			tbTop.btnHorarioEstudo.setBackground(Color.WHITE);
+			tbTop.btnHorarioEstudo.setForeground(new Color(100, 149, 237));
+			
+		}else {
+			isHorarioEstudoPanelActive = true;
+			pessoaClicked =(Pessoa) ToolbarLeft.jListPessoas.getSelectedValue();
+			
+			pnHorarioEstudo = new PanelHorarioEstudo(pessoaClicked);
+			pnHorarioEstudo.setBounds(250, 80, 802, 595);
+			//ToolbarTop.btnHorarioEstudo.setBackground(new Color(65, 105, 225));
+			//ToolbarTop.btnHorarioEstudo.setBackground(new Color(176, 196, 222));
+			ToolbarTop.btnHorarioEstudo.setBackground(new Color(100, 149, 237));
+			ToolbarTop.btnHorarioEstudo.setForeground(Color.WHITE);
+			
+			ToolbarTop.btnCompromisso.setBackground(Color.WHITE);
+			ToolbarTop.btnCompromisso.setForeground(new Color(100, 149, 237));
+			
+			this.getContentPane().add(pnHorarioEstudo);
+			
+		}
+		revalidate();
+		repaint();
+		
 		this.getContentPane().add(tbLeft);
 		this.getContentPane().add(tbTop);
 

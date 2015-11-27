@@ -3,11 +3,18 @@ package POO_AgendaDigital.Core;
 import java.util.ArrayList;
 
 public class Pessoa {
-	private final int PessoaId;
+	private int PessoaId;
 	private String Nome;
 	private String DataNascimento;
 	private ArrayList<Compromisso> Compromissos;
 
+	public Pessoa(String Nome, String DataNascimento) {
+		//this.PessoaId = PessoaId;
+		this.Nome = Nome;
+		this.DataNascimento = DataNascimento;
+		Compromissos = new ArrayList<Compromisso>();
+	}
+	
 	public Pessoa(int PessoaId, String Nome, String DataNascimento) {
 		this.PessoaId = PessoaId;
 		this.Nome = Nome;
@@ -84,6 +91,7 @@ public class Pessoa {
 
 	// EndRegion
 	
+	@Override
 	public String toString(){
 		return "•" + Nome;
 	}

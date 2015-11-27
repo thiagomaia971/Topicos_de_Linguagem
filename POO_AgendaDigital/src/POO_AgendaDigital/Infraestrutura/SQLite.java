@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import POO_AgendaDigital.Core.Compromisso;
 import POO_AgendaDigital.Core.Pessoa;
 
@@ -34,11 +36,12 @@ public class SQLite {
 	public static void insertPessoa(Pessoa pessoa) {
 		try {
 			stm = conn.createStatement();
-			stm.executeUpdate("INSERT INTO Pessoa (Nome, DataNasc, Idade) " + "VALUES ('" + pessoa.getNome() + "', '"
-					+ pessoa.getDataNascimento());
-			// stm.cancel();
+			stm.executeUpdate("INSERT INTO Pessoa (Nome, DataNasc) VALUES ('" + pessoa.getNome() + "', '"
+					+ pessoa.getDataNascimento() + "')");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Não foi possivel criar.");
 		}
 	}
 
@@ -137,8 +140,9 @@ public class SQLite {
 	public static void updatePessoa(int Id, Pessoa Pessoa) {
 		try {
 			stm = conn.createStatement();
-			stm.executeUpdate("UPDATE [Pessoa] SET Nome = '" + Pessoa.getNome() + "DataNasc = '"
-					+ Pessoa.getDataNascimento() + "' WHERE Pessoa.PessoaId = " + Id + "");
+			stm.executeUpdate("UPDATE Pessoa SET Nome = 'thfn', DataNasc = '222' WHERE Pessoa.PessoaId = 1");
+			//stm.executeUpdate("UPDATE Pessoa SET Nome = '" + Pessoa.getNome() + "', DataNasc = '"
+				//	+ Pessoa.getDataNascimento() + "' WHERE Pessoa.PessoaId = " + Id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -203,6 +207,10 @@ public class SQLite {
 					+ ", HoraInicial VARCHAR(5) NOT NULL, HoraFinal VARCHAR(5) NOT NULL" + ", FOREIGN KEY ([PessoaId]) "
 					+ "  REFERENCES [Pessoa] ([PessoaId]))");
 
+			stm.executeUpdate("CREATE TABLE IF NOT EXISTS [Dias] (DiasId INTEGER PRIMARY KEY"
+					+", CompromissoId INTEGER, Dia_Semana VARCHAR(7) NOT NULL"
+					+", FOREIGN KEY ([CompromissoId]) REFERENCES (Compromisso) ([CompromissoId]) )");
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

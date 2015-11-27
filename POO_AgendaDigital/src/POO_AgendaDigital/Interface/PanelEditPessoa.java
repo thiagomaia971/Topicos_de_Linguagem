@@ -19,18 +19,16 @@ public class PanelEditPessoa extends JPanel {
 
 	private JLabel lblCadastrar;
 	private JLabel lblNome;
-	private JLabel lblIdade;
 	private JLabel lblDataDeNascimento;
 
 	private JTextField inputNome;
-	private JTextField inputIdade;
 	private JTextField inputDataNascimento;
 
 	private JButton btnSalvar;
 
 	private Pessoa pessoaClickada;
-	
-	public DefaultListModel<Pessoa> model;
+
+	private static DefaultListModel<Pessoa> _model;
 
 	public PanelEditPessoa() {
 
@@ -50,15 +48,6 @@ public class PanelEditPessoa extends JPanel {
 		inputNome.setBounds(263, 154, 293, 26);
 		inputNome.setColumns(10);
 
-		inputIdade = new JTextField();
-		inputIdade.setColumns(10);
-		inputIdade.setBounds(263, 228, 293, 26);
-
-		lblIdade = new JLabel("Idade: ");
-		lblIdade.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIdade.setFont(new Font("Arial Black", Font.PLAIN, 16));
-		lblIdade.setBounds(291, 191, 223, 26);
-
 		inputDataNascimento = new JTextField();
 		inputDataNascimento.setColumns(10);
 		inputDataNascimento.setBounds(263, 322, 293, 26);
@@ -70,10 +59,9 @@ public class PanelEditPessoa extends JPanel {
 
 		this.add(lblCadastrar);
 		this.add(lblNome);
-		this.add(lblIdade);
 		this.add(lblDataDeNascimento);
+		
 		this.add(inputNome);
-		this.add(inputIdade);
 		this.add(inputDataNascimento);
 
 		btnSalvar = new JButton("Salvar");
@@ -82,14 +70,13 @@ public class PanelEditPessoa extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SQLite.updatePessoa(pessoaClickada.getPessoaId(),
-						new Pessoa(pessoaClickada.getPessoaId(), inputNome.getText().toString(),
-								Integer.parseInt(inputIdade.getText()), inputDataNascimento.getText().toString()));
-				model.removeAllElements();
+				SQLite.updatePessoa(pessoaClickada.getPessoaId(), new Pessoa(pessoaClickada.getPessoaId(),
+						inputNome.getText().toString(), inputDataNascimento.getText().toString()));
+				_model.removeAllElements();
 				for (int i = 0; i < SQLite.qtdePessoasRegistradas(); i++) {
-					model.add(i, SQLite.getPessoaByIndex(i));
+					_model.add(i, SQLite.getPessoaByIndex(i));
 				}
-				
+
 			}
 		});
 
@@ -104,12 +91,11 @@ public class PanelEditPessoa extends JPanel {
 		this.pessoaClickada = PessoaClickada;
 
 		inputNome.setText(this.pessoaClickada.getNome());
-		inputIdade.setText(String.valueOf(this.pessoaClickada.getIdade()));
 		inputDataNascimento.setText(this.pessoaClickada.getDataNascimento());
 	}
 
-	public void setModel(DefaultListModel<Pessoa>  model){
-		this.model = model;
+	public static void setModel(DefaultListModel<Pessoa> model) {
+		_model = model;
 	}
-	
+
 }

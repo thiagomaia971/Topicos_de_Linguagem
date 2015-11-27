@@ -4,9 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+
+import java.awt.Color;
 import java.awt.Font;
 
-import POO_AgendaDigital.Core.Negocio;
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 
@@ -24,18 +25,14 @@ public class PanelCreatePessoa extends JPanel {
 
 	private JLabel lblCadastrar;
 	private JLabel lblNome;
-	private JLabel lblIdade;
 	private JLabel lblDataDeNascimento;
 
 	private JTextField inputNome;
-	private JTextField inputIdade;
 	private JTextField inputDataNascimento;
 
 	private JButton btnNovo;
 
 	public static DefaultListModel<Pessoa> _model;
-
-	private int cont = 0;
 
 	/**
 	 * Create the panel.
@@ -58,16 +55,6 @@ public class PanelCreatePessoa extends JPanel {
 		inputNome.setColumns(10);
 		inputNome.addKeyListener(alphabeticOnlyAdapter());
 
-		inputIdade = new JTextField();
-		inputIdade.setColumns(10);
-		inputIdade.setBounds(263, 228, 293, 26);
-		inputIdade.addKeyListener(digitOnlyAdapter());
-
-		lblIdade = new JLabel("Idade: ");
-		lblIdade.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIdade.setFont(new Font("Arial Black", Font.PLAIN, 16));
-		lblIdade.setBounds(291, 191, 223, 26);
-
 		inputDataNascimento = new JTextField();
 		inputDataNascimento.setColumns(10);
 		inputDataNascimento.setBounds(263, 322, 293, 26);
@@ -80,24 +67,39 @@ public class PanelCreatePessoa extends JPanel {
 
 		this.add(lblCadastrar);
 		this.add(lblNome);
-		this.add(lblIdade);
 		this.add(lblDataDeNascimento);
+
 		this.add(inputNome);
-		this.add(inputIdade);
 		this.add(inputDataNascimento);
 
 		btnNovo = new JButton("Novo");
 
 		btnNovo.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 				String nomeStr = inputNome.getText();
 
 				if (nomeStr.length() > 0) {
-					Pessoa newPessoa = new Pessoa(0, inputNome.getText(), inputDataNascimento.getText());
+					Pessoa newPessoa = new Pessoa(inputNome.getText().toString(),
+							inputDataNascimento.getText().toString());
 					SQLite.insertPessoa(newPessoa);
-
+					
+					int lastIndex = -1;
+					
 					_model.addElement(newPessoa);
+					
+					for (int i = 0; i < _model.size(); i++) {
+						lastIndex++;
+					}
+					
+					ToolbarLeft.jListPessoas.setSelectedIndex(lastIndex);
+					ToolbarLeft.btnEditar.setVisible(true);
+					ToolbarLeft.btnNovo.setBackground(Color.WHITE);
+					ToolbarLeft.btnNovo.setForeground(new Color(100, 149, 237));
+					
+					repaint();
+					revalidate();
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Informe o seu Nome");
@@ -115,6 +117,7 @@ public class PanelCreatePessoa extends JPanel {
 
 	private KeyAdapter digitOnlyAdapter() {
 		KeyAdapter keyAdapter = new KeyAdapter() {
+			@Override
 			public void keyTyped(KeyEvent e) {
 				JTextField s = (JTextField) e.getSource();
 
@@ -124,8 +127,6 @@ public class PanelCreatePessoa extends JPanel {
 
 				if (!Character.isDigit(e.getKeyChar())) {
 					e.consume();
-				} else {
-					cont++;
 				}
 
 				if (s.getText().length() == 2 || s.getText().length() == 5) {
@@ -142,6 +143,7 @@ public class PanelCreatePessoa extends JPanel {
 
 	private KeyAdapter alphabeticOnlyAdapter() {
 		KeyAdapter keyAdapter = new KeyAdapter() {
+			@Override
 			public void keyTyped(KeyEvent e) {
 
 				if (!Character.isAlphabetic(e.getKeyChar())) {

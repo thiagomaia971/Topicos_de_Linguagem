@@ -2,48 +2,38 @@ package POO_AgendaDigital.Services;
 
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Interface.MainFrame;
+import POO_AgendaDigital.Interface.ToolbarLeft;
 
 public class Services {
 
 	private static MainFrame MainFrame;
-	
-	public Services(){
+
+	public Services() {
 		MainFrame = new MainFrame();
 	}
-	
-	public static void setJFrame(MainFrame jFrame){
+
+	public static void setJFrame(MainFrame jFrame) {
 		MainFrame = jFrame;
 	}
-	
-	public static void SwitchPanelService(String e, Pessoa... Pessoa){
+
+	@SuppressWarnings("static-access")
+	public static void SwitchPanelService(String e, Pessoa... Pessoa) {
 		switch (e) {
-		case "Novo":
-			POO_AgendaDigital.Interface.MainFrame.isCreatePanelActive = true;
-			POO_AgendaDigital.Interface.MainFrame.pnCreatePessoa.setVisible(true);
+		case "NovaPessoa":
 
-			POO_AgendaDigital.Interface.MainFrame.isEditPanelActive = false;
-			POO_AgendaDigital.Interface.MainFrame.pnEditPessoa.setVisible(false);
-
-			POO_AgendaDigital.Interface.MainFrame.isCalendarioPanelActive = false;
-			POO_AgendaDigital.Interface.MainFrame.calendario.setVisible(false);
+			selectPanelChange(true, false, false, false, false);
 
 			POO_AgendaDigital.Interface.MainFrame.pnCreatePessoa.setBounds(250, 80, 802, 595);
 			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnCreatePessoa);
 
 			break;
 
-		case "Editar":
-			
-			POO_AgendaDigital.Interface.MainFrame.isCreatePanelActive = false;
-			POO_AgendaDigital.Interface.MainFrame.pnCreatePessoa.setVisible(false);
+		case "EditarPessoa":
 
-			POO_AgendaDigital.Interface.MainFrame.isEditPanelActive = true;
-			POO_AgendaDigital.Interface.MainFrame.pnEditPessoa.setVisible(true);
+			selectPanelChange(false, true, false, false, false);
 
-			POO_AgendaDigital.Interface.MainFrame.isCalendarioPanelActive = false;
-			POO_AgendaDigital.Interface.MainFrame.calendario.setVisible(false);
-
-			POO_AgendaDigital.Interface.MainFrame.pnEditPessoa.setModel(POO_AgendaDigital.Interface.MainFrame.tbLeft.model);
+			POO_AgendaDigital.Interface.MainFrame.pnEditPessoa
+					.setModel(POO_AgendaDigital.Interface.MainFrame.tbLeft.model);
 			POO_AgendaDigital.Interface.MainFrame.pnEditPessoa.setBounds(250, 80, 802, 595);
 			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnEditPessoa);
 
@@ -51,9 +41,59 @@ public class Services {
 
 			break;
 
+		case "HorarioEstudo":
+
+			selectPanelChange(false, false, true, false, false);
+
+			POO_AgendaDigital.Interface.PanelHorarioEstudo
+					.setPessoaClickada((Pessoa) ToolbarLeft.jListPessoas.getSelectedValue());
+			
+			POO_AgendaDigital.Interface.MainFrame.pnHorarioEstudo.setBounds(250, 80, 802, 595);
+			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnHorarioEstudo);
+
+			break;
+
+		case "NovoCompromisso":
+
+			selectPanelChange(false, false, true, true, false);
+
+			POO_AgendaDigital.Interface.MainFrame.pnCreateCompromisso.setBounds(250, 80, 802, 595);
+			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnCreateCompromisso);
+
+			break;
+
+		case "TodosCompromissos":
+
+			selectPanelChange(false, false, false, false, true);
+
+			POO_AgendaDigital.Interface.MainFrame.pnAllCompromisso.setBounds(250, 80, 802, 595);
+			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnAllCompromisso);
+
+			break;
+
 		default:
 			break;
 		}
 	}
-	
+
+	private static void selectPanelChange(boolean isCreatePanelActive, boolean isEditPanelActive,
+			boolean isCalendarioPanelActive, boolean isCreateCompromissoPanelActive,
+			boolean isAllCompromissoPanelActive) {
+
+		POO_AgendaDigital.Interface.MainFrame.isCreatePanelActive = isCreatePanelActive;
+		POO_AgendaDigital.Interface.MainFrame.pnCreatePessoa.setVisible(isCreatePanelActive);
+
+		POO_AgendaDigital.Interface.MainFrame.isEditPanelActive = isEditPanelActive;
+		POO_AgendaDigital.Interface.MainFrame.pnEditPessoa.setVisible(isEditPanelActive);
+
+		POO_AgendaDigital.Interface.MainFrame.isHorarioEstudoPanelActive = isCalendarioPanelActive;
+		POO_AgendaDigital.Interface.MainFrame.pnHorarioEstudo.setVisible(isCalendarioPanelActive);
+
+		POO_AgendaDigital.Interface.MainFrame.isCreateCompromissoPanelActive = isAllCompromissoPanelActive;
+		POO_AgendaDigital.Interface.MainFrame.pnCreateCompromisso.setVisible(isCreateCompromissoPanelActive);
+
+		POO_AgendaDigital.Interface.MainFrame.isAllCompromissoPanelActive = isCreateCompromissoPanelActive;
+		POO_AgendaDigital.Interface.MainFrame.pnAllCompromisso.setVisible(isAllCompromissoPanelActive);
+	}
+
 }

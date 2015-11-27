@@ -2,8 +2,6 @@ package POO_AgendaDigital.Core;
 
 import java.util.ArrayList;
 
-import POO_AgendaDigital.Infraestrutura.SQLite;
-
 public class Negocio {
 	
 	
@@ -43,6 +41,7 @@ public class Negocio {
 		
 		for(int i = 0; i < idadeStr.length(); i++){
 			try {
+				@SuppressWarnings("unused")
 				int convert = Integer.parseInt(new Character(idadeStr.charAt(i)).toString());
 			} catch (Exception e) {
 				isInteger = false;
