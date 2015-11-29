@@ -90,6 +90,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 			public void valueChanged(ListSelectionEvent e) {
 				
 				listListener.valueChange(jListPessoas.getSelectedValue());
+				
 				ToolbarTop.btnHorarioEstudo.setBackground(new Color(100, 149, 237));
 				ToolbarTop.btnHorarioEstudo.setForeground(Color.WHITE);
 				

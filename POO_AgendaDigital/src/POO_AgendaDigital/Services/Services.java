@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Interface.MainFrame;
 import POO_AgendaDigital.Interface.ToolbarLeft;
-import POO_AgendaDigital.Interface.ToolbarTop;
 
 public class Services {
 
@@ -129,6 +128,22 @@ public class Services {
 		};
 
 		return keyAdapter;
+	}
+	
+	public static String[] GerarHorarios(){
+		String[] horarios = new String [25];
+		horarios[0] = "Inicial/Final";
+		
+		for(int i = 1; i < horarios.length; i++){
+			if(i > 4){
+				horarios[i] = (i - 1)+":30";
+			}else{
+				horarios[i] = "0"+(i - 1)+":30";
+			}
+			
+		}
+		
+		return horarios;
 	}
 
 }

@@ -47,7 +47,7 @@ public class PanelAllCompromisso extends JPanel implements ActionListener{
 		btnNovo.addActionListener(this);
 		
 		if(pessoaSelected != null){
-			lblNamePessoa = new JLabel(pessoaSelected.getNome());
+			lblNamePessoa.setText(pessoaSelected.getNome());
 		}
 		
 		add(btnNovo);

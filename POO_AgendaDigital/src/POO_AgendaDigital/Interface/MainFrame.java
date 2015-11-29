@@ -66,14 +66,14 @@ public class MainFrame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		SQLite.insertPessoa(new Pessoa("Thiago", "26/04/1997"));
+		/*SQLite.insertPessoa(new Pessoa("Thiago", "26/04/1997"));
 		ArrayList<Dia> a = new ArrayList<Dia>();
 		a.add(new Dia(1, 1, "Segunda", "7", "10"));
 		a.add(new Dia(1, 1, "Terca", "7", "10"));
 
 		SQLite.insertCompromisso(new Compromisso(1, 1, "Faculdade", a));
 		SQLite.insertDia(a.get(0));
-		SQLite.insertDia(a.get(1));
+		SQLite.insertDia(a.get(1));*/
 		
 		isCreatePanelActive = false;
 		isEditPanelActive = false;
@@ -115,7 +115,8 @@ public class MainFrame extends JFrame {
 				pnCreatePessoa.setVisible(false);
 				pnEditPessoa.setVisible(false);
 				pnAllCompromisso.setVisible(false);
-
+				pnCreateCompromisso.setVisible(false);
+				
 				isHorarioEstudoPanelActive = true;
 				pnHorarioEstudo.setVisible(isHorarioEstudoPanelActive);
 				pnHorarioEstudo.setBounds(250, 70, 792, 558);
