@@ -6,9 +6,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import POO_AgendaDigital.Core.Compromisso;
+import POO_AgendaDigital.Core.Dia;
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
@@ -19,8 +22,8 @@ import POO_AgendaDigital.Services.Services;
 public class MainFrame extends JFrame {
 
 	private ToolbarTop tbTop;
-	public static ToolbarLeft tbLeft;
 	
+	public static ToolbarLeft tbLeft;
 	public static PanelCreatePessoa pnCreatePessoa;
 	public static PanelEditPessoa pnEditPessoa;
 	public static PanelHorarioEstudo pnHorarioEstudo;
@@ -63,7 +66,14 @@ public class MainFrame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		SQLite.insertPessoa(new Pessoa("Thiago", "26/04/1997"));
+		ArrayList<Dia> a = new ArrayList<Dia>();
+		a.add(new Dia(1, 1, "Segunda", "7", "10"));
+		a.add(new Dia(1, 1, "Terca", "7", "10"));
 
+		SQLite.insertCompromisso(new Compromisso(1, 1, "Faculdade", a));
+		SQLite.insertDia(a.get(0));
+		SQLite.insertDia(a.get(1));
 		
 		isCreatePanelActive = false;
 		isEditPanelActive = false;
@@ -75,10 +85,9 @@ public class MainFrame extends JFrame {
 		Pessoa pessoaClicked =(Pessoa) ToolbarLeft.jListPessoas.getSelectedValue();
 		pnEditPessoa = new PanelEditPessoa();
 		pnCreatePessoa = new PanelCreatePessoa();
-		pnAllCompromisso = new PanelAllCompromisso();
-		pnCreateCompromisso = new PanelCreateCompromisso();
+		pnAllCompromisso = new PanelAllCompromisso(pessoaClicked);
+		pnCreateCompromisso = new PanelCreateCompromisso(pessoaClicked);
 		pnHorarioEstudo = new PanelHorarioEstudo(pessoaClicked);
-		
 		
 		
 		Services.setJFrame(this);
@@ -140,19 +149,16 @@ public class MainFrame extends JFrame {
 		tbTop.setBounds(250, 0, 802, 80);
 
 		if(ToolbarLeft.jListPessoas.isSelectionEmpty()){
+			
 			isCreatePanelActive = true;
 			
 			pnCreatePessoa.setBounds(250, 80, 802, 595);
 			this.getContentPane().add(pnCreatePessoa);
 			
-			tbLeft.btnNovo.setBackground(new Color(100, 149, 237));
-			tbLeft.btnNovo.setForeground(Color.WHITE);
-			
-			tbTop.btnCompromisso.setBackground(Color.WHITE);
-			tbTop.btnCompromisso.setForeground(new Color(100, 149, 237));
-			
-			tbTop.btnHorarioEstudo.setBackground(Color.WHITE);
-			tbTop.btnHorarioEstudo.setForeground(new Color(100, 149, 237));
+			Services.buttonSelected(tbLeft.btnNovo);
+			Services.buttonDiselected(tbLeft.btnEditar);
+			Services.buttonDiselected(tbTop.btnCompromisso);
+			Services.buttonDiselected(tbTop.btnHorarioEstudo);
 			
 		}else {
 			isHorarioEstudoPanelActive = true;
@@ -160,17 +166,27 @@ public class MainFrame extends JFrame {
 			
 			pnHorarioEstudo = new PanelHorarioEstudo(pessoaClicked);
 			pnHorarioEstudo.setBounds(250, 80, 802, 595);
-			//ToolbarTop.btnHorarioEstudo.setBackground(new Color(65, 105, 225));
-			//ToolbarTop.btnHorarioEstudo.setBackground(new Color(176, 196, 222));
-			ToolbarTop.btnHorarioEstudo.setBackground(new Color(100, 149, 237));
-			ToolbarTop.btnHorarioEstudo.setForeground(Color.WHITE);
-			
-			ToolbarTop.btnCompromisso.setBackground(Color.WHITE);
-			ToolbarTop.btnCompromisso.setForeground(new Color(100, 149, 237));
+
+			Services.buttonSelected(ToolbarTop.btnHorarioEstudo);
+			Services.buttonDiselected(ToolbarTop.btnCompromisso);
 			
 			this.getContentPane().add(pnHorarioEstudo);
 			
 		}
+		
+		pnAllCompromisso.setListListener(new ILeftToolbarListener() {
+			
+			@Override
+			public void buttomEventCurrent(String e, Pessoa... Pessoa) {
+				
+				Services.SwitchPanelService(e, Pessoa);
+				
+				revalidate();
+				repaint();
+				
+			}
+		});
+		
 		revalidate();
 		repaint();
 		

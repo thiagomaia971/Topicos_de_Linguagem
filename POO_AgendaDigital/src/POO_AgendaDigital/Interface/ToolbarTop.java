@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
+import POO_AgendaDigital.Services.Services;
 
 import java.awt.Color;
 
@@ -55,27 +56,21 @@ public class ToolbarTop extends JPanel implements ActionListener{
 			Pessoa pessoaSelected = (Pessoa) ToolbarLeft.jListPessoas.getSelectedValue();
 			tbLeftListener.buttomEventCurrent("HorarioEstudo", pessoaSelected);
 			
-			btnHorarioEstudo.setBackground(new Color(100, 149, 237));
-			btnHorarioEstudo.setForeground(Color.WHITE);
-			
-			btnCompromisso.setBackground(Color.WHITE);
-			btnCompromisso.setForeground(new Color(100, 149, 237));
+			Services.buttonSelected(btnHorarioEstudo);
+			Services.buttonDiselected(btnCompromisso);
+			Services.buttonDiselected(ToolbarLeft.btnNovo);
+			Services.buttonDiselected(ToolbarLeft.btnEditar);
 			
 		}else if(buttonClicked == btnCompromisso){
 			tbLeftListener.buttomEventCurrent("TodosCompromissos");
 			
-			btnHorarioEstudo.setBackground(Color.WHITE);
-			btnHorarioEstudo.setForeground(new Color(100, 149, 237));
-			
-			btnCompromisso.setBackground(new Color(100, 149, 237));
-			btnCompromisso.setForeground(Color.WHITE);
+			Services.buttonSelected(btnCompromisso);
+			Services.buttonDiselected(btnHorarioEstudo);
+			Services.buttonDiselected(ToolbarLeft.btnNovo);
+			Services.buttonDiselected(ToolbarLeft.btnEditar);
 		}	
 		
-		ToolbarLeft.btnNovo.setBackground(Color.WHITE);
-		ToolbarLeft.btnNovo.setForeground(new Color(100, 149, 237));
 		
-		ToolbarLeft.btnNovo.setBackground(Color.WHITE);
-		ToolbarLeft.btnNovo.setForeground(new Color(100, 149, 237));
 	}
 	
 	public void setListListener(ILeftToolbarListener tbListener){

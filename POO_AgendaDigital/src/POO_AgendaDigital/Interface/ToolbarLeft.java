@@ -126,7 +126,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		this.add(txtTes);
 		
 
-		setVisible(true);
+		this.setVisible(true);
 
 	}
 	
@@ -167,6 +167,12 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 			
 			btnEditar.setBackground(new Color(100, 149, 237));
 			btnEditar.setForeground(Color.WHITE);
+			
+			ToolbarTop.btnCompromisso.setBackground(Color.WHITE);
+			ToolbarTop.btnCompromisso.setForeground(new Color(100, 149, 237));
+			
+			ToolbarTop.btnHorarioEstudo.setBackground(Color.WHITE);
+			ToolbarTop.btnHorarioEstudo.setForeground(new Color(100, 149, 237));
 		}
 	}
 

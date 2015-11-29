@@ -44,7 +44,7 @@ public class PanelHorarioEstudo extends JPanel {
 		table.setBounds(20, 84, 750, 463);
 
 		if (pessoaSelected != null) {
-			lblNamePessoa.setText(_pessoaSelected.getNome() + "est");
+			lblNamePessoa.setText(_pessoaSelected.getNome());
 			populandoTabela();
 		}
 
@@ -53,7 +53,7 @@ public class PanelHorarioEstudo extends JPanel {
 	}
 
 	public static void setPessoaClickada(Pessoa _pessoaClickada) {
-		lblNamePessoa.setText(_pessoaClickada.getNome() + "est");
+		lblNamePessoa.setText(_pessoaClickada.getNome());
 	}
 
 	private void populandoTabela() {

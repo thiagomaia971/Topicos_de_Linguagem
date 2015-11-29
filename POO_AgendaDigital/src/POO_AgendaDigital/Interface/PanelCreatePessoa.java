@@ -10,6 +10,7 @@ import java.awt.Font;
 
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
+import POO_AgendaDigital.Services.Services;
 
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
@@ -53,7 +54,7 @@ public class PanelCreatePessoa extends JPanel {
 		inputNome = new JTextField();
 		inputNome.setBounds(263, 154, 293, 26);
 		inputNome.setColumns(10);
-		inputNome.addKeyListener(alphabeticOnlyAdapter());
+		inputNome.addKeyListener(Services.alphabeticOnlyAdapter());
 
 		inputDataNascimento = new JTextField();
 		inputDataNascimento.setColumns(10);
@@ -141,19 +142,7 @@ public class PanelCreatePessoa extends JPanel {
 		return keyAdapter;
 	}
 
-	private KeyAdapter alphabeticOnlyAdapter() {
-		KeyAdapter keyAdapter = new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-
-				if (!Character.isAlphabetic(e.getKeyChar())) {
-					e.consume();
-				}
-			}
-		};
-
-		return keyAdapter;
-	}
+	
 
 	public static void setModel(DefaultListModel<Pessoa> model) {
 		_model = model;

@@ -11,7 +11,7 @@ public class Semana {
 		compromissos = SQLite.getCompromisso();
 	}
 
-	public static ArrayList<Compromisso> getDiaDaSemana(int Dia) {
+	/*public static ArrayList<Compromisso> getDiaDaSemana(int Dia) {
 		ArrayList<Compromisso> compromissosSegunda = new ArrayList<Compromisso>();
 
 		ArrayList<Compromisso> allCompromissos = SQLite.getCompromisso();
@@ -26,6 +26,6 @@ public class Semana {
 		}
 
 		return compromissosSegunda;
-	}
+	}*/
 	
 }

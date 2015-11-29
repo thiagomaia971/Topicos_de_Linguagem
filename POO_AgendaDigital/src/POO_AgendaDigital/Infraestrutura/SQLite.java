@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import POO_AgendaDigital.Core.Compromisso;
+import POO_AgendaDigital.Core.Dia;
 import POO_AgendaDigital.Core.Pessoa;
 
 public class SQLite {
@@ -38,7 +39,7 @@ public class SQLite {
 			stm = conn.createStatement();
 			stm.executeUpdate("INSERT INTO Pessoa (Nome, DataNasc) VALUES ('" + pessoa.getNome() + "', '"
 					+ pessoa.getDataNascimento() + "')");
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Não foi possivel criar.");
@@ -123,14 +124,24 @@ public class SQLite {
 
 		try {
 			stm = conn.createStatement();
-			stm.executeUpdate("INSERT INTO [Compromisso](PessoaId, NomeCompromisso, Dias, HoraInicial, HoraFinal) "
-					+ "VALUES (" + Compromisso.getPessoaId() + ", '" + Compromisso.getNomeCompromisso() + "', "
-					+ Compromisso.getDias() + ", '" + Compromisso.getHoraInicial() + "', '" + Compromisso.getHoraFinal()
-					+ "')");
+			stm.executeUpdate("INSERT INTO [Compromisso](PessoaId, NomeCompromisso) " + "VALUES ('"
+					+ Compromisso.getPessoaId() + "', '" + Compromisso.getNomeCompromisso() + "')");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
 
+	public static void insertDia(Dia Dia) {
+
+		try {
+			stm = conn.createStatement();
+			stm.executeUpdate("INSERT INTO [Dia] (CompromissoId, Dia_Semana, HoraInicial, HoraFinal)" + "Values ('"
+					+ Dia.getCompromissoId() + "', '" + Dia.getDia_Semana() + "', '" + Dia.getHoraInicial() + "', '"
+					+ Dia.getHoraFinal() + "')");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -140,9 +151,8 @@ public class SQLite {
 	public static void updatePessoa(int Id, Pessoa Pessoa) {
 		try {
 			stm = conn.createStatement();
-			stm.executeUpdate("UPDATE Pessoa SET Nome = 'thfn', DataNasc = '222' WHERE Pessoa.PessoaId = 1");
-			//stm.executeUpdate("UPDATE Pessoa SET Nome = '" + Pessoa.getNome() + "', DataNasc = '"
-				//	+ Pessoa.getDataNascimento() + "' WHERE Pessoa.PessoaId = " + Id);
+			stm.executeUpdate("UPDATE Pessoa SET Nome = '" + Pessoa.getNome() + "', DataNasc = '"
+					+ Pessoa.getDataNascimento() + "' WHERE Pessoa.PessoaId = 1");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -150,16 +160,30 @@ public class SQLite {
 
 	public static ArrayList<Compromisso> getCompromisso() {
 		ArrayList<Compromisso> compromissos = new ArrayList<Compromisso>();
+		ArrayList<Dia> dias = new ArrayList<Dia>();
 
 		ResultSet rs;
+		try {
+			stm = conn.createStatement();
+			rs = stm.executeQuery(
+					"SELECT * FROM [Dia] AS d INNER JOIN Compromisso AS c ON d.CompromissoId = c.CompromissoId");
+
+			while (rs.next()) {
+				dias.add(new Dia(rs.getInt("DiaId"), rs.getInt("CompromissoId"), rs.getString("Dia_Semana"),
+						rs.getString("HoraInicial"), rs.getString("HoraFinal")));
+			}
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		try {
 			stm = conn.createStatement();
 			rs = stm.executeQuery("SELECT * FROM [Compromisso] AS c INNER JOIN Pessoa AS p ON c.PessoaId = p.PessoaId");
 
 			while (rs.next()) {
 				compromissos.add(new Compromisso(rs.getInt("CompromissoId"), rs.getInt("PessoaId"),
-						rs.getString("NomeCompromisso"), rs.getInt("Dias"), rs.getString("HoraInicial"),
-						rs.getString("HoraFinal")));
+						rs.getString("NomeCompromisso"), dias));
 
 			}
 			rs.close();
@@ -203,14 +227,14 @@ public class SQLite {
 
 			// Compromisso
 			stm.executeUpdate("CREATE TABLE IF NOT EXISTS [Compromisso] (CompromissoId INTEGER PRIMARY KEY"
-					+ ", PessoaId INTEGER, NomeCompromisso VARCHAR(20) NOT NULL, Dias INTEGER NOT NULL"
-					+ ", HoraInicial VARCHAR(5) NOT NULL, HoraFinal VARCHAR(5) NOT NULL" + ", FOREIGN KEY ([PessoaId]) "
+					+ ", PessoaId INTEGER, NomeCompromisso VARCHAR(20) NOT NULL, FOREIGN KEY ([PessoaId]) "
 					+ "  REFERENCES [Pessoa] ([PessoaId]))");
 
-			stm.executeUpdate("CREATE TABLE IF NOT EXISTS [Dias] (DiasId INTEGER PRIMARY KEY"
-					+", CompromissoId INTEGER, Dia_Semana VARCHAR(7) NOT NULL"
-					+", FOREIGN KEY ([CompromissoId]) REFERENCES (Compromisso) ([CompromissoId]) )");
-			
+			stm.executeUpdate("CREATE TABLE IF NOT EXISTS [Dia] ( DiasId INTEGER PRIMARY KEY"
+					+ ", CompromissoId INTEGER, Dia_Semana VARCHAR(7) NOT NULL, HoraInicial VARCHAR(5) NOT NULL"
+					+ ", HoraFinal VARCHAR(5) NOT NULL, FOREIGN KEY (CompromissoId)"
+					+ "  REFERENCES [Compromisso] ([CompromissoId]) )");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

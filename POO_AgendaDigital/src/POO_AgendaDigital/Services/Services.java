@@ -1,8 +1,15 @@
 package POO_AgendaDigital.Services;
 
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JButton;
+
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Interface.MainFrame;
 import POO_AgendaDigital.Interface.ToolbarLeft;
+import POO_AgendaDigital.Interface.ToolbarTop;
 
 public class Services {
 
@@ -17,7 +24,7 @@ public class Services {
 	}
 
 	@SuppressWarnings("static-access")
-	public static void SwitchPanelService(String e, Pessoa... Pessoa) {
+	public static void SwitchPanelService(String e, Pessoa ... Pessoa) {
 		switch (e) {
 		case "NovaPessoa":
 
@@ -55,7 +62,7 @@ public class Services {
 
 		case "NovoCompromisso":
 
-			selectPanelChange(false, false, true, true, false);
+			selectPanelChange(false, false, false, true, false);
 
 			POO_AgendaDigital.Interface.MainFrame.pnCreateCompromisso.setBounds(250, 80, 802, 595);
 			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnCreateCompromisso);
@@ -94,6 +101,34 @@ public class Services {
 
 		POO_AgendaDigital.Interface.MainFrame.isAllCompromissoPanelActive = isCreateCompromissoPanelActive;
 		POO_AgendaDigital.Interface.MainFrame.pnAllCompromisso.setVisible(isAllCompromissoPanelActive);
+	}
+	
+	public static void buttonSelected(JButton btnSelected){
+		btnSelected.setBackground(new Color(100, 149, 237));
+		btnSelected.setForeground(Color.WHITE);
+		MainFrame.revalidate();
+		MainFrame.repaint();
+	}
+	
+	public static void buttonDiselected(JButton btnDislected){
+		btnDislected.setBackground(Color.WHITE);
+		btnDislected.setForeground(new Color(100, 149, 237));
+		MainFrame.revalidate();
+		MainFrame.repaint();
+	}
+	
+	public static KeyAdapter alphabeticOnlyAdapter() {
+		KeyAdapter keyAdapter = new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+				if (!Character.isAlphabetic(e.getKeyChar())) {
+					e.consume();
+				}
+			}
+		};
+
+		return keyAdapter;
 	}
 
 }
