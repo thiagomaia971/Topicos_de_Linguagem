@@ -127,9 +127,105 @@ public class SQLite {
 			stm.executeUpdate("INSERT INTO [Compromisso](PessoaId, NomeCompromisso) " + "VALUES ('"
 					+ Compromisso.getPessoaId() + "', '" + Compromisso.getNomeCompromisso() + "')");
 
+			//stm.executeUpdate("INSERT INTO [Dia] ")
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/*
+	 * Método para receber um compromisso apartir de uma Pessoa.
+	 * 
+	 * @param Pessoa
+	 */
+	public static Compromisso getCompromissoById(int Id) {
+		
+		Compromisso compromisso = new Compromisso();
+		ArrayList<Dia> dias = new ArrayList<Dia>();
+		ResultSet rs;
+
+		try {
+			// Pegando os Dias da semana desse compromisso
+			stm = conn.createStatement();
+			rs = stm.executeQuery(
+					"SELECT * FROM [Dia] AS d INNER JOIN [Compromisso] AS c ON d.CompromissoId = c.CompromissoId WHERE c.Compromisso = "
+							+ Id);
+
+			while (rs.next()) {
+				dias.add(new Dia(rs.getInt("DiaId"), rs.getInt("CompromissoId"), rs.getString("Dia_Semana"),
+						rs.getString("HoraInicial"), rs.getString("HoraFinal")));
+			}
+
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		try {
+			// Pegando o compromisso
+			stm = conn.createStatement();
+			rs = stm.executeQuery(
+					"SELECT * FROM [Compromisso] AS c WHERE c.PessoaId = "
+							+ Id);
+
+			while (rs.next()) {
+				compromisso = new Compromisso(rs.getInt("CompromissoId"), rs.getInt("PessoaId"),
+						rs.getString("NomeCompromisso"), dias);
+			}
+			rs.close();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return compromisso;
+	}
+
+	/*
+	 * Método para receber todos os Compromissos.
+	 */
+	public static ArrayList<Compromisso> getCompromissos() {
+		
+		ArrayList<Compromisso> compromissos = new ArrayList<Compromisso>();
+
+		ResultSet _rs;
+
+		try {
+			stm = conn.createStatement();
+			_rs = stm
+					.executeQuery("SELECT * FROM [Compromisso] AS c INNER JOIN Pessoa AS p ON c.PessoaId = p.PessoaId");
+
+			while (_rs.next()) {
+				// Pegando os dias de 1 compromisso
+				ResultSet rs;
+				ArrayList<Dia> dias = new ArrayList<Dia>();
+
+				try {
+					stm = conn.createStatement();
+					rs = stm.executeQuery(
+							"SELECT * FROM [Dia] AS d INNER JOIN Compromisso AS c ON d.CompromissoId = c.CompromissoId WHERE c.CompromissoId = " + _rs.getInt("CompromissoId"));
+
+					while (rs.next()) {
+						dias.add(new Dia(rs.getInt("DiaId"), rs.getInt("CompromissoId"), rs.getString("Dia_Semana"),
+								rs.getString("HoraInicial"), rs.getString("HoraFinal")));
+					}
+					rs.close();
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
+				compromissos.add(new Compromisso(_rs.getInt("CompromissoId"), + _rs.getInt("PessoaId"),
+						_rs.getString("NomeCompromisso"), dias));
+
+			}
+			_rs.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return compromissos;
 	}
 
 	public static void insertDia(Dia Dia) {
@@ -149,6 +245,7 @@ public class SQLite {
 	 */
 
 	public static void updatePessoa(int Id, Pessoa Pessoa) {
+
 		try {
 			stm = conn.createStatement();
 			stm.executeUpdate("UPDATE Pessoa SET Nome = '" + Pessoa.getNome() + "', DataNasc = '"
@@ -156,43 +253,6 @@ public class SQLite {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static ArrayList<Compromisso> getCompromisso() {
-		ArrayList<Compromisso> compromissos = new ArrayList<Compromisso>();
-		ArrayList<Dia> dias = new ArrayList<Dia>();
-
-		ResultSet rs;
-		try {
-			stm = conn.createStatement();
-			rs = stm.executeQuery(
-					"SELECT * FROM [Dia] AS d INNER JOIN Compromisso AS c ON d.CompromissoId = c.CompromissoId");
-
-			while (rs.next()) {
-				dias.add(new Dia(rs.getInt("DiaId"), rs.getInt("CompromissoId"), rs.getString("Dia_Semana"),
-						rs.getString("HoraInicial"), rs.getString("HoraFinal")));
-			}
-			rs.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-		try {
-			stm = conn.createStatement();
-			rs = stm.executeQuery("SELECT * FROM [Compromisso] AS c INNER JOIN Pessoa AS p ON c.PessoaId = p.PessoaId");
-
-			while (rs.next()) {
-				compromissos.add(new Compromisso(rs.getInt("CompromissoId"), rs.getInt("PessoaId"),
-						rs.getString("NomeCompromisso"), dias));
-
-			}
-			rs.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return compromissos;
 	}
 
 	/**
@@ -229,7 +289,7 @@ public class SQLite {
 			stm.executeUpdate("CREATE TABLE IF NOT EXISTS [Compromisso] (CompromissoId INTEGER PRIMARY KEY"
 					+ ", PessoaId INTEGER, NomeCompromisso VARCHAR(20) NOT NULL, FOREIGN KEY ([PessoaId]) "
 					+ "  REFERENCES [Pessoa] ([PessoaId]))");
-
+			//Dia
 			stm.executeUpdate("CREATE TABLE IF NOT EXISTS [Dia] ( DiasId INTEGER PRIMARY KEY"
 					+ ", CompromissoId INTEGER, Dia_Semana VARCHAR(7) NOT NULL, HoraInicial VARCHAR(5) NOT NULL"
 					+ ", HoraFinal VARCHAR(5) NOT NULL, FOREIGN KEY (CompromissoId)"

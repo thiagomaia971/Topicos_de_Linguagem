@@ -17,6 +17,16 @@ public class Dia {
 		this.HoraFinal = HoraFinal;
 
 	}
+	
+	public Dia(String Dia_Semana, String HoraInicial, String HoraFinal) {
+		this.DiaId = 0;
+		this.CompromissoId = 0;
+		
+		this.Dia_Semana = Dia_Semana;
+		this.HoraInicial = HoraInicial;
+		this.HoraFinal = HoraFinal;
+
+	}
 
 	public String getDia_Semana() {
 		return Dia_Semana;

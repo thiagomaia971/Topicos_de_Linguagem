@@ -2,6 +2,8 @@ package POO_AgendaDigital.Core;
 
 import java.util.ArrayList;
 
+import javax.swing.JTextField;
+
 public class Compromisso {
 	
 	private final int CompromissoId;
@@ -22,8 +24,21 @@ public class Compromisso {
 		this.Dias = Dias;
 	}
 
+	public Compromisso(int PessoaId, String NomeCompromisso, ArrayList<Dia> Dias) {
+		this.CompromissoId = 0;
+		this.PessoaId = PessoaId;
+		this.NomeCompromisso = NomeCompromisso;
+		this.Dias = Dias;
+	}
+	
 	// Region GETTERS
 
+
+	public Compromisso(int PessoaId, String NomeCompromisso) {
+		this.CompromissoId = 0;
+		this.PessoaId = PessoaId;
+		this.NomeCompromisso = NomeCompromisso;
+	}
 
 	public String getNomeCompromisso() {
 		return NomeCompromisso;

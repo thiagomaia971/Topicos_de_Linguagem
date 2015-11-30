@@ -226,6 +226,7 @@ public class PanelCreateCompromisso extends JPanel implements ActionListener{
 		this.add(comboDomingoFinal);
 		
 		this.add(btnSalvar);
+		btnSalvar.addActionListener(this);
 		
 	}
 
@@ -237,13 +238,28 @@ public class PanelCreateCompromisso extends JPanel implements ActionListener{
 		String inputTercaInicial = (String)comboTercaInicial.getSelectedItem();
 		String inputTercaFinal = (String)comboTercaFinal.getSelectedItem();
 		
+		String inputQuartaInicial = (String)comboQuartaInicial.getSelectedItem();
+		String inputQuartaFinal = (String)comboQuartaFinal.getSelectedItem();
+		
+		String inputQuintaInicial = (String)comboQuintaInicial.getSelectedItem();
+		String inputQuintaFinal = (String)comboQuintaFinal.getSelectedItem();
+		
+		String inputSextaInicial = (String)comboSextaInicial.getSelectedItem();
+		String inputSextaFinal = (String)comboSextaFinal.getSelectedItem();
+		
+		String inputSabadoInicial = (String)comboSabadoInicial.getSelectedItem();
+		String inputSabadoFinal = (String)comboSabadoFinal.getSelectedItem();
+		
 		ArrayList<Dia> dias = new ArrayList<Dia>();
 		
-		/*if(!inputSegundaInicial.equals("Inicial/Final")){
-			dias.add(new Dia(0, CompromissoId, Dia_Semana, HoraInicial, HoraFinal))
+		if(comboSegundaInicial.getSelectedIndex() > 0 || comboSegundaFinal.getSelectedIndex() > 0){
+			dias.add(new Dia("Segunda", inputSegundaInicial, inputSegundaFinal));
+		}else{
+			
 		}
-		SQLite.insertCompromisso(new Compromisso(0, _pessoaSelected.getPessoaId(), inputDescricao, Dias));
-		*/
+		
+		SQLite.insertCompromisso(new Compromisso(_pessoaSelected.getPessoaId(), inputDescricao.getText()));
+		SQLite.insertDia(Dia);
 		
 	}
 
