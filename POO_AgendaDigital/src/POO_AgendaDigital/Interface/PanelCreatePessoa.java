@@ -84,20 +84,27 @@ public class PanelCreatePessoa extends JPanel {
 				if (nomeStr.length() > 0) {
 					Pessoa newPessoa = new Pessoa(inputNome.getText().toString(),
 							inputDataNascimento.getText().toString());
+					
 					SQLite.insertPessoa(newPessoa);
 					
 					int lastIndex = -1;
 					
-					_model.addElement(newPessoa);
+					ToolbarLeft.model.clear();
 					
-					for (int i = 0; i < _model.size(); i++) {
+					for (int i = 0; i < SQLite.qtdePessoasRegistradas(); i++) {
+						ToolbarLeft.model.add(i, SQLite.getPessoaByIndex(i));
 						lastIndex++;
 					}
 					
 					ToolbarLeft.jListPessoas.setSelectedIndex(lastIndex);
+					
 					ToolbarLeft.btnEditar.setVisible(true);
 					ToolbarLeft.btnNovo.setBackground(Color.WHITE);
 					ToolbarLeft.btnNovo.setForeground(new Color(100, 149, 237));
+					
+					ToolbarTop.btnHorarioEstudo.setVisible(true);
+					ToolbarTop.btnCompromisso.setVisible(true);
+					
 					
 					repaint();
 					revalidate();

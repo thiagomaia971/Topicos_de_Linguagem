@@ -6,7 +6,7 @@ import javax.swing.JTextField;
 
 public class Compromisso {
 	
-	private final int CompromissoId;
+	private int CompromissoId;
 	private final int PessoaId;
 	
 	private String NomeCompromisso;
@@ -29,6 +29,10 @@ public class Compromisso {
 		this.PessoaId = PessoaId;
 		this.NomeCompromisso = NomeCompromisso;
 		this.Dias = Dias;
+	}
+	
+	public void setCompromissoId(int id){
+		this.CompromissoId = id;
 	}
 	
 	// Region GETTERS

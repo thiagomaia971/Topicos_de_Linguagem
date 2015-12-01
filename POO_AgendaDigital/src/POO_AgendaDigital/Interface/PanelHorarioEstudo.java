@@ -20,9 +20,9 @@ public class PanelHorarioEstudo extends JPanel {
 	
 	private static Pessoa _pessoaSelected;
 
-	public PanelHorarioEstudo(Pessoa pessoaSelected) {
+	public PanelHorarioEstudo() {
 
-		_pessoaSelected = pessoaSelected;
+		//_pessoaSelected = pessoaSelected;
 
 		this.setBackground(new Color(240, 240, 240));
 		this.setLayout(null);
@@ -43,10 +43,10 @@ public class PanelHorarioEstudo extends JPanel {
 		table.setCellSelectionEnabled(true);
 		table.setBounds(20, 84, 750, 463);
 
-		if (pessoaSelected != null) {
+		/*if (pessoaSelected != null) {
 			lblNamePessoa.setText(_pessoaSelected.getNome());
 			populandoTabela();
-		}
+		}*/
 
 		this.add(lblNamePessoa);
 		this.add(table);

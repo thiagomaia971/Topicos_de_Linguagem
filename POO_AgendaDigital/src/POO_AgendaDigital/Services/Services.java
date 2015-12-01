@@ -7,7 +7,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 
 import POO_AgendaDigital.Core.Pessoa;
+import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.MainFrame;
+import POO_AgendaDigital.Interface.PanelCreateCompromisso;
 import POO_AgendaDigital.Interface.ToolbarLeft;
 
 public class Services {
@@ -51,6 +53,8 @@ public class Services {
 
 			selectPanelChange(false, false, true, false, false);
 
+			//PanelCreateCompromisso.setPessoaClickada(SQLite.getPessoa(ToolbarLeft.jListPessoas.getSelectedValue()));
+			
 			POO_AgendaDigital.Interface.PanelHorarioEstudo
 					.setPessoaClickada((Pessoa) ToolbarLeft.jListPessoas.getSelectedValue());
 			
@@ -63,6 +67,8 @@ public class Services {
 
 			selectPanelChange(false, false, false, true, false);
 
+			//PanelCreateCompromisso.setPessoaClickada(SQLite.getPessoa(ToolbarLeft.jListPessoas.getSelectedValue()));
+			
 			POO_AgendaDigital.Interface.MainFrame.pnCreateCompromisso.setBounds(250, 80, 802, 595);
 			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnCreateCompromisso);
 
@@ -71,6 +77,7 @@ public class Services {
 		case "TodosCompromissos":
 
 			selectPanelChange(false, false, false, false, true);
+			//PanelCreateCompromisso.setPessoaClickada(SQLite.getPessoa(ToolbarLeft.jListPessoas.getSelectedValue()));
 
 			POO_AgendaDigital.Interface.MainFrame.pnAllCompromisso.setBounds(250, 80, 802, 595);
 			MainFrame.getContentPane().add(POO_AgendaDigital.Interface.MainFrame.pnAllCompromisso);

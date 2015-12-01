@@ -33,12 +33,14 @@ public class ToolbarTop extends JPanel implements ActionListener{
 		btnHorarioEstudo.setBackground(new Color(100, 149, 237));
 		btnHorarioEstudo.setForeground(Color.WHITE);
 		btnHorarioEstudo.setBounds(251, 19, 143, 35);
+		btnHorarioEstudo.setVisible(false);
 		
 		btnCompromisso = new JButton("Compromisso");
 		btnCompromisso.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnCompromisso.setBackground(Color.WHITE);
 		btnCompromisso.setForeground(new Color(100, 149, 237));
 		btnCompromisso.setBounds(391, 19, 143, 35);
+		btnCompromisso.setVisible(false);
 		
 		btnHorarioEstudo.addActionListener(this);
 		btnCompromisso.addActionListener(this);

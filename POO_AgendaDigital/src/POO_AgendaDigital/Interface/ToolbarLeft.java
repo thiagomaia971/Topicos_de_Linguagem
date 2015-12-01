@@ -9,6 +9,7 @@ import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
 import POO_AgendaDigital.Interface.Listeners.IListListener;
+import POO_AgendaDigital.Services.Services;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -33,7 +34,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 	
 	public static JList<Pessoa> jListPessoas;
 	private JTextField txtTes;
-	public DefaultListModel<Pessoa> model;
+	public static DefaultListModel<Pessoa> model;
 	private ILeftToolbarListener tbListener;
 	private IListListener listListener;
 	public boolean getVisiblePanel;
@@ -72,6 +73,7 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		for (int i = 0; i < SQLite.qtdePessoasRegistradas(); i++) {
 			model.add(i, SQLite.getPessoaByIndex(i));
 		}
+		
 		PanelCreatePessoa.setModel(model);
 		PanelEditPessoa.setModel(model);
 		
@@ -145,7 +147,10 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		
 		if (clicked == btnNovo) {
 			tbListener.buttomEventCurrent("NovaPessoa");
-			jListPessoas.setSelectedIndex(-1);
+			
+			//PanelHorarioEstudo.
+			
+			jListPessoas.clearSelection();
 			
 			btnNovo.setBackground(new Color(100, 149, 237));
 			btnNovo.setForeground(Color.WHITE);
@@ -153,11 +158,8 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 			btnEditar.setBackground(Color.WHITE);
 			btnEditar.setForeground(new Color(100, 149, 237));
 			
-			ToolbarTop.btnCompromisso.setBackground(Color.WHITE);
-			ToolbarTop.btnCompromisso.setForeground(new Color(100, 149, 237));
-			
-			ToolbarTop.btnHorarioEstudo.setBackground(Color.WHITE);
-			ToolbarTop.btnHorarioEstudo.setForeground(new Color(100, 149, 237));
+			Services.buttonDiselected(ToolbarTop.btnHorarioEstudo);
+			Services.buttonDiselected(ToolbarTop.btnCompromisso);
 			
 			
 		} else if (clicked == btnEditar) {

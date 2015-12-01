@@ -24,14 +24,18 @@ public class PanelAllCompromisso extends JPanel implements ActionListener{
 	
 	JButton btnNovo;
 	
-	public PanelAllCompromisso(Pessoa pessoaSelected){
+	public PanelAllCompromisso(){
 		
 		this.setBackground(new Color(240, 240, 240));
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setBounds(250, 70, 792, 558);
 		
-		lblNamePessoa = new JLabel("");
+		if(!ToolbarLeft.jListPessoas.isSelectionEmpty()){
+			lblNamePessoa = new JLabel(ToolbarLeft.jListPessoas.getSelectedValue().getNome());
+		}
+		
+		lblNamePessoa = new JLabel();
 		lblNamePessoa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNamePessoa.setFont(new Font("Sitka Text", Font.BOLD, 30));
 		lblNamePessoa.setBounds(10, 11, 772, 62);
@@ -46,9 +50,9 @@ public class PanelAllCompromisso extends JPanel implements ActionListener{
 		
 		btnNovo.addActionListener(this);
 		
-		if(pessoaSelected != null){
+		/*if(pessoaSelected != null){
 			lblNamePessoa.setText(pessoaSelected.getNome());
-		}
+		}*/
 		
 		add(btnNovo);
 		
