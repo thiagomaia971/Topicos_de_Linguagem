@@ -146,24 +146,27 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 		JButton clicked = (JButton) e.getSource();
 		
 		if (clicked == btnNovo) {
+			jListPessoas.clearSelection();
+			
+			MainFrame.pnCreatePessoa = new PanelCreatePessoa();
+			MainFrame.pnCreatePessoa.setVisible(true);
+			MainFrame.pnAllCompromisso.setVisible(false);
+			MainFrame.pnHorarioEstudo.setVisible(false);
+			
 			tbListener.buttomEventCurrent("NovaPessoa");
 			
 			//PanelHorarioEstudo.
 			
-			jListPessoas.clearSelection();
+			Services.btnNovaPessoaSelected();
 			
-			btnNovo.setBackground(new Color(100, 149, 237));
-			btnNovo.setForeground(Color.WHITE);
+			ToolbarTop.btnCompromisso.setVisible(false);
+			ToolbarTop.btnHorarioEstudo.setVisible(false);
 			
-			btnEditar.setBackground(Color.WHITE);
-			btnEditar.setForeground(new Color(100, 149, 237));
-			
-			Services.buttonDiselected(ToolbarTop.btnHorarioEstudo);
-			Services.buttonDiselected(ToolbarTop.btnCompromisso);
 			
 			
 		} else if (clicked == btnEditar) {
 			tbListener.buttomEventCurrent("EditarPessoa", jListPessoas.getSelectedValue());
+			
 			
 			btnNovo.setBackground(Color.WHITE);
 			btnNovo.setForeground(new Color(100, 149, 237));
@@ -176,6 +179,11 @@ public class ToolbarLeft extends JPanel implements ActionListener{
 			
 			ToolbarTop.btnHorarioEstudo.setBackground(Color.WHITE);
 			ToolbarTop.btnHorarioEstudo.setForeground(new Color(100, 149, 237));
+			
+			MainFrame.isCreatePanelActive = true;
+			MainFrame.pnCreatePessoa.setVisible(true);
+			MainFrame.isHorarioEstudoPanelActive = false;
+			MainFrame.pnHorarioEstudo.setVisible(false);
 		}
 	}
 

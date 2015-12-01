@@ -192,7 +192,7 @@ public class SQLite {
 		try {
 			stm = conn.createStatement();
 			_rs = stm
-					.executeQuery("SELECT * FROM [Compromisso] AS c INNER JOIN Pessoa AS p ON c.PessoaId = p.PessoaId");
+					.executeQuery("SELECT * FROM [Compromisso] AS c INNER JOIN [Pessoa] AS p ON c.PessoaId = p.PessoaId");
 
 			while (_rs.next()) {
 				// Pegando os dias de 1 compromisso
@@ -200,13 +200,15 @@ public class SQLite {
 				ArrayList<Dia> dias = new ArrayList<Dia>();
 
 				try {
+
 					stm = conn.createStatement();
 					rs = stm.executeQuery(
-							"SELECT * FROM [Dia] AS d INNER JOIN Compromisso AS c ON d.CompromissoId = c.CompromissoId WHERE c.CompromissoId = "
+							"SELECT * FROM [Dia] AS d INNER JOIN [Compromisso] AS c ON d.CompromissoId = c.CompromissoId WHERE c.CompromissoId = "
 									+ _rs.getInt("CompromissoId"));
 
 					while (rs.next()) {
-						dias.add(new Dia(rs.getInt("DiaId"), rs.getInt("CompromissoId"), rs.getString("Dia_Semana"),
+						
+						dias.add(new Dia(rs.getInt("DiasId"), rs.getInt("CompromissoId"), rs.getString("Dia_Semana"),
 								rs.getString("HoraInicial"), rs.getString("HoraFinal")));
 					}
 					rs.close();

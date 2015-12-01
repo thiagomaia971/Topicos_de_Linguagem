@@ -70,4 +70,8 @@ public class Compromisso {
 
 	// EndRegion
 
+	public String toString(){
+		return NomeCompromisso;
+	}
+	
 }

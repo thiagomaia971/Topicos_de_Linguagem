@@ -17,8 +17,6 @@ public class PanelHorarioEstudo extends JPanel {
 	private JTable table;
 	private Compromisso rowData[][];
 	private Object columnNames[];
-	
-	private static Pessoa _pessoaSelected;
 
 	public PanelHorarioEstudo() {
 

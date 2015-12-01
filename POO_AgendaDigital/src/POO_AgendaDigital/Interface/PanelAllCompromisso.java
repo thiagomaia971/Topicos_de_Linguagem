@@ -7,22 +7,31 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
+import POO_AgendaDigital.Core.Compromisso;
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
+import POO_AgendaDigital.Services.Services;
 
 import javax.swing.JButton;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
 
 @SuppressWarnings("serial")
 public class PanelAllCompromisso extends JPanel implements ActionListener{
 	
 	private static JLabel lblNamePessoa;
 	private static Pessoa _pessoaSelected;
+	private JButton btnNovo;
+	
+	private JTable table;
+	public static Compromisso rowData[][];
+	private Object columnNames[];
 	
 	private ILeftToolbarListener tbLeftListener;
 	
-	JButton btnNovo;
 	
 	public PanelAllCompromisso(){
 		
@@ -40,9 +49,6 @@ public class PanelAllCompromisso extends JPanel implements ActionListener{
 		lblNamePessoa.setFont(new Font("Sitka Text", Font.BOLD, 30));
 		lblNamePessoa.setBounds(10, 11, 772, 62);
 		
-		
-		this.add(lblNamePessoa);
-		
 		btnNovo = new JButton("Novo");
 		btnNovo.setBackground(Color.WHITE);
 		btnNovo.setForeground(new Color(100, 149, 237));
@@ -50,11 +56,22 @@ public class PanelAllCompromisso extends JPanel implements ActionListener{
 		
 		btnNovo.addActionListener(this);
 		
-		/*if(pessoaSelected != null){
-			lblNamePessoa.setText(pessoaSelected.getNome());
-		}*/
+		columnNames = new Object [] {"Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"};
+		rowData = new Compromisso [5][7];
 		
-		add(btnNovo);
+		Services.populandoCompromisso();
+		
+		
+		table = new JTable(rowData, columnNames);
+		table.setColumnSelectionAllowed(true);
+		table.setCellSelectionEnabled(true);
+		table.setBorder(new CompoundBorder());
+		table.setBounds(105, 100, 628, 300);
+		table.setVisible(true);
+		
+		this.add(lblNamePessoa);
+		this.add(btnNovo);
+		this.add(table);
 		
 	}
 	

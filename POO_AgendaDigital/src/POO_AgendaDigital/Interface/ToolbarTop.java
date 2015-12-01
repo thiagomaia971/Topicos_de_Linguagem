@@ -58,18 +58,12 @@ public class ToolbarTop extends JPanel implements ActionListener{
 			Pessoa pessoaSelected = (Pessoa) ToolbarLeft.jListPessoas.getSelectedValue();
 			tbLeftListener.buttomEventCurrent("HorarioEstudo", pessoaSelected);
 			
-			Services.buttonSelected(btnHorarioEstudo);
-			Services.buttonDiselected(btnCompromisso);
-			Services.buttonDiselected(ToolbarLeft.btnNovo);
-			Services.buttonDiselected(ToolbarLeft.btnEditar);
+			Services.btnHorarioEstudoSelected();
 			
 		}else if(buttonClicked == btnCompromisso){
 			tbLeftListener.buttomEventCurrent("TodosCompromissos");
 			
-			Services.buttonSelected(btnCompromisso);
-			Services.buttonDiselected(btnHorarioEstudo);
-			Services.buttonDiselected(ToolbarLeft.btnNovo);
-			Services.buttonDiselected(ToolbarLeft.btnEditar);
+			Services.btnCompromissoSelected();
 		}	
 		
 		

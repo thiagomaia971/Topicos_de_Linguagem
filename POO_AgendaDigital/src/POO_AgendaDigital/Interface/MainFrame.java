@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JList;
 
-import POO_AgendaDigital.Core.Compromisso;
-import POO_AgendaDigital.Core.Dia;
 import POO_AgendaDigital.Core.Pessoa;
 import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.Listeners.ILeftToolbarListener;
@@ -85,14 +83,23 @@ public class MainFrame extends JFrame {
 		isCreateCompromissoPanelActive = false;
 
 		tbLeft = new ToolbarLeft();
-		// pessoaClicked = null;
+		tbTop = new ToolbarTop();
 
+		tbLeft.setBounds(0, 0, 250, 595);
+		tbTop.setBounds(250, 0, 802, 80);
+		
 		pnEditPessoa = new PanelEditPessoa();
 		pnCreatePessoa = new PanelCreatePessoa();
 		pnAllCompromisso = new PanelAllCompromisso();
 		pnCreateCompromisso = new PanelCreateCompromisso();
 		pnHorarioEstudo = new PanelHorarioEstudo();
 
+		this.getContentPane().add(pnEditPessoa);
+		this.getContentPane().add(pnCreatePessoa);
+		this.getContentPane().add(pnAllCompromisso);
+		this.getContentPane().add(pnCreateCompromisso);
+		this.getContentPane().add(pnHorarioEstudo);
+		
 		Services.setJFrame(this);
 
 		tbLeft.setLeftToolbarListener(new ILeftToolbarListener() {
@@ -100,7 +107,6 @@ public class MainFrame extends JFrame {
 			@Override
 			public void buttomEventCurrent(String e, Pessoa... Pessoa) {
 
-				// pnCreatePessoa = new PanelCreatePessoa();
 				Services.SwitchPanelService(e, Pessoa);
 
 				revalidate();
@@ -115,6 +121,9 @@ public class MainFrame extends JFrame {
 			@Override
 			public void valueChange(Pessoa PessoaClickada) {
 
+				ToolbarTop.btnHorarioEstudo.setVisible(true);
+				ToolbarTop.btnCompromisso.setVisible(true);
+				
 				PessoaClickada = ToolbarLeft.jListPessoas.getSelectedValue();
 
 				pnCreatePessoa.setVisible(false);
@@ -129,6 +138,7 @@ public class MainFrame extends JFrame {
 				if(PessoaClickada != null){
 					pnHorarioEstudo.setPessoaClickada(PessoaClickada);
 					pnCreateCompromisso.setPessoaClickada(PessoaClickada);
+					pnAllCompromisso.setPessoaClickada(PessoaClickada);
 				}
 
 
@@ -139,17 +149,11 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		tbTop = new ToolbarTop();
-
+		
 		tbTop.setListListener(new ILeftToolbarListener() {
 
 			@Override
 			public void buttomEventCurrent(String e, Pessoa... Pessoa) {
-
-				/*
-				 * if (pessoaClicked != null) { pessoaClicked =
-				 * SQLite.getPessoa(Pessoa[0]); }
-				 */
 
 				Services.SwitchPanelService(e, Pessoa);
 
@@ -159,35 +163,8 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		tbLeft.setBounds(0, 0, 250, 595);
-		tbTop.setBounds(250, 0, 802, 80);
+		
 
-		if (ToolbarLeft.jListPessoas.isSelectionEmpty()) {
-
-			isCreatePanelActive = true;
-
-			pnCreatePessoa.setBounds(250, 80, 802, 595);
-			this.getContentPane().add(pnCreatePessoa);
-
-			Services.buttonSelected(tbLeft.btnNovo);
-			Services.buttonDiselected(tbLeft.btnEditar);
-			Services.buttonDiselected(tbTop.btnCompromisso);
-			Services.buttonDiselected(tbTop.btnHorarioEstudo);
-
-		} else {
-			isHorarioEstudoPanelActive = true;
-			pnHorarioEstudo.setBounds(250, 80, 802, 595);
-			pnHorarioEstudo.setPessoaClickada(ToolbarLeft.jListPessoas.getSelectedValue());
-
-			ToolbarTop.btnHorarioEstudo.setVisible(true);
-			ToolbarTop.btnCompromisso.setVisible(true);
-			
-			Services.buttonSelected(ToolbarTop.btnHorarioEstudo);
-			Services.buttonDiselected(ToolbarTop.btnCompromisso);
-
-			this.getContentPane().add(pnHorarioEstudo);
-
-		}
 
 		pnAllCompromisso.setListListener(new ILeftToolbarListener() {
 
@@ -202,6 +179,41 @@ public class MainFrame extends JFrame {
 			}
 		});
 
+		if (ToolbarLeft.jListPessoas.isSelectionEmpty()) {
+			
+			isCreatePanelActive = true;
+			
+			pnCreatePessoa.setBounds(250, 80, 802, 595);
+			//this.getContentPane().add(pnCreatePessoa);
+			
+			Services.btnNovaPessoaSelected();
+			
+		} else {
+			
+			Pessoa PessoaClickada = ToolbarLeft.jListPessoas.getSelectedValue();
+			
+			isHorarioEstudoPanelActive = true;
+			pnHorarioEstudo.setVisible(true);
+			pnHorarioEstudo.setBounds(250, 80, 802, 595);
+			pnHorarioEstudo.setPessoaClickada(ToolbarLeft.jListPessoas.getSelectedValue());
+			
+			pnAllCompromisso.setVisible(false);
+			
+			ToolbarTop.btnHorarioEstudo.setVisible(true);
+			ToolbarTop.btnCompromisso.setVisible(true);
+			
+			Services.btnHorarioEstudoSelected();
+			
+			if(PessoaClickada != null){
+				pnHorarioEstudo.setPessoaClickada(PessoaClickada);
+				pnCreateCompromisso.setPessoaClickada(PessoaClickada);
+				pnAllCompromisso.setPessoaClickada(PessoaClickada);
+			}
+			
+			this.getContentPane().add(pnHorarioEstudo);
+			
+		}
+		
 		revalidate();
 		repaint();
 

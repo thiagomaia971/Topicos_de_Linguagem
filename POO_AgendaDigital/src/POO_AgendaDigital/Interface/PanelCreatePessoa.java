@@ -39,6 +39,7 @@ public class PanelCreatePessoa extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelCreatePessoa() {
+		this.setVisible(true);
 		setLayout(null);
 
 		lblCadastrar = new JLabel("Cadastrar");
@@ -66,6 +67,7 @@ public class PanelCreatePessoa extends JPanel {
 		lblDataDeNascimento.setFont(new Font("Arial Black", Font.PLAIN, 16));
 		lblDataDeNascimento.setBounds(291, 285, 223, 26);
 
+		
 		this.add(lblCadastrar);
 		this.add(lblNome);
 		this.add(lblDataDeNascimento);
@@ -117,6 +119,7 @@ public class PanelCreatePessoa extends JPanel {
 
 		btnNovo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNovo.setBounds(604, 493, 175, 44);
+		
 		this.add(btnNovo);
 
 		this.setVisible(true);
