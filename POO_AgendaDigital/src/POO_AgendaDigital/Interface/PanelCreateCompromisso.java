@@ -303,6 +303,9 @@ public class PanelCreateCompromisso extends JPanel implements ActionListener {
 		
 		Services.SwitchPanelService("HorarioEstudo", ToolbarLeft.jListPessoas.getSelectedValue());
 		
+		MainFrame.pnCreateCompromisso.setVisible(false);
+		MainFrame.pnAllCompromisso.setVisible(true);
+		
 		Services.btnNovaPessoaSelected();
 
 	}

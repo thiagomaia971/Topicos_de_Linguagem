@@ -61,6 +61,7 @@ public class ToolbarTop extends JPanel implements ActionListener{
 			Services.btnHorarioEstudoSelected();
 			
 		}else if(buttonClicked == btnCompromisso){
+				
 			tbLeftListener.buttomEventCurrent("TodosCompromissos");
 			
 			Services.btnCompromissoSelected();

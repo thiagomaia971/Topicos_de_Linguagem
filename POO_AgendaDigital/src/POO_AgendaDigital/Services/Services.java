@@ -14,8 +14,11 @@ import POO_AgendaDigital.Infraestrutura.SQLite;
 import POO_AgendaDigital.Interface.MainFrame;
 import POO_AgendaDigital.Interface.PanelAllCompromisso;
 import POO_AgendaDigital.Interface.PanelCreateCompromisso;
+import POO_AgendaDigital.Interface.PanelHorarioEstudo;
 import POO_AgendaDigital.Interface.ToolbarLeft;
 import POO_AgendaDigital.Interface.ToolbarTop;
+
+import java.util.List.*;
 
 public class Services {
 
@@ -185,85 +188,180 @@ public class Services {
 
 	}
 
-	public static void populandoCompromisso() {
+	public static String[][] populandoCompromisso(Pessoa pessoaSelected) {
 		ArrayList<Compromisso> allCompromissos = SQLite.getCompromissos();
 		ArrayList<Compromisso> compromissos = new ArrayList<Compromisso>();
 
+		int c = 0;
 		for (Compromisso _compromisso : allCompromissos) {
-			if (_compromisso.getPessoaId() == ToolbarLeft.jListPessoas.getSelectedValue().getPessoaId()) {
+			if (_compromisso.getPessoaId() == pessoaSelected.getPessoaId()) {
 				compromissos.add(_compromisso);
+				c++;
 			}
 		}
-		Compromisso[][] compromissoM = PanelAllCompromisso.rowData;
+		PanelAllCompromisso.rowData = new String [20][8];
+		String[][] compromissoM = PanelAllCompromisso.rowData;
 
-		for (int i = 0; i < compromissoM.length; i++) {
-			for (int j = 0; j < compromissoM[i].length; j++) {
-				if (j == 0) {
-					for(int z = 0; z < compromissos.size(); z++){
-						
+		String[] horariosArrayPosition = GerarHorarios();
+
+		for(int i = 1; i < horariosArrayPosition.length; i++){
+			//PanelAllCompromisso.rowData[i][0] = horariosArrayPosition[i];
+			compromissoM[i][0] = horariosArrayPosition[i];
+		}
+		
+		compromissoM[0][1] = "Segunda";
+		compromissoM[0][2] = "Terça";
+		compromissoM[0][3] = "Quarta";
+		compromissoM[0][4] = "Quinta";
+		compromissoM[0][5] = "Sexta";
+		compromissoM[0][6] = "Sabado";
+		compromissoM[0][7] = "Domingo";
+		
+		for (int i = 0; i < compromissos.size(); i++) {
+			for (int j = 0; j < compromissos.get(i).getDias().size(); j++) {
+				int posicaoDiaM = 0;
+
+				if (compromissos.get(i).getDias().get(j).getDia_Semana().equals("Segunda")) {
+					posicaoDiaM = 1;
+				} else if (compromissos.get(i).getDias().get(j).getDia_Semana().equals("Terça")) {
+					posicaoDiaM = 2;
+				}else if (compromissos.get(i).getDias().get(j).getDia_Semana().equals("Quarta")) {
+					posicaoDiaM = 3;
+				}else if (compromissos.get(i).getDias().get(j).getDia_Semana().equals("Quinta")) {
+					posicaoDiaM = 4;
+				}else if (compromissos.get(i).getDias().get(j).getDia_Semana().equals("Sexta")) {
+					posicaoDiaM = 5;
+				}else if (compromissos.get(i).getDias().get(j).getDia_Semana().equals("Sabado")) {
+					posicaoDiaM = 6;
+				}else if (compromissos.get(i).getDias().get(j).getDia_Semana().equals("Domingo")) {
+					posicaoDiaM = 7;
+				}
+				
+				
+				String horarioInicial = compromissos.get(i).getDias().get(j).getHoraInicial();
+				String horarioFinal = compromissos.get(i).getDias().get(j).getHoraFinal();
+				
+				int posI = 0;
+				int posF = 0;
+				
+				for (int z = 1; z < horariosArrayPosition.length; z++) {
+					if (horariosArrayPosition[z].equals(horarioInicial)) {
+						posI = z;
 					}
-					compromissoM[i][j] = compromissos.get(i);
+					
+					if(horariosArrayPosition[z].equals(horarioFinal)){
+						posF = z + 1;
+					}
 				}
-				if (j == 1) {
-					compromissoM[i][j] = compromissos.get(i);
+				
+				for(int z = posI; z < posF; z++){
+					//PanelAllCompromisso.rowData[z][posicaoDiaM] = compromissos.get(i).getNomeCompromisso();
+					compromissoM[z][posicaoDiaM] = compromissos.get(i).getNomeCompromisso();
 				}
+				
 
-				if (j == 2) {
-					compromissoM[i][j] = compromissos.get(i);
-				}
-				
-				if( j == 3){
-					compromissoM[i][j] = compromissos.get(i);
-				}
-				
-				if( j == 4){
-					compromissoM[i][j] = compromissos.get(i);
-				}
-				
-				if( j == 5){
-					compromissoM[i][j] = compromissos.get(i);
-				}
-				
-				if( j == 6){
-					compromissoM[i][j] = compromissos.get(i);
-				}
-				
-				if( j == 7){
-					compromissoM[i][j] = compromissos.get(i);
+			}
+		}
+		return compromissoM;
+	}
+	
+	public static String[][] gerarTabelaHorario(){
+		String[][] matrizAllCompromisso = populandoCompromisso(ToolbarLeft.jListPessoas.getSelectedValue());
+		String[][] matrizHorarioEstudo = PanelHorarioEstudo.rowData;
+
+		String[] horariosArrayPosition = Services.GerarHorarios();
+
+		for (int i = 1; i < horariosArrayPosition.length; i++) {
+			matrizHorarioEstudo[i][0] = horariosArrayPosition[i];
+		}
+
+		matrizHorarioEstudo[0][1] = "Segunda";
+		matrizHorarioEstudo[0][2] = "Terça";
+		matrizHorarioEstudo[0][3] = "Quarta";
+		matrizHorarioEstudo[0][4] = "Quinta";
+		matrizHorarioEstudo[0][5] = "Sexta";
+		matrizHorarioEstudo[0][6] = "Sabado";
+		matrizHorarioEstudo[0][7] = "Domingo";
+		
+		
+		int[] cont = new int[7];
+		/*for(int i = 0; i < cont.length; i++){
+			cont[i] = new int[]();
+		}*/
+
+		for (int i = 1; i < matrizAllCompromisso.length; i++) {
+			for (int j = 1; j < matrizAllCompromisso[i].length; j++) {
+				if (matrizAllCompromisso[i][j] == null) {
+					if (j == 0 && cont[0] < 3) {
+						cont[0]++;
+						matrizHorarioEstudo[i][j] = "Estudar";
+					}
+					if (j == 1 && cont[1] < 3) {
+						cont[j]++;
+						matrizHorarioEstudo[i][j] = "Estudar";
+					}
+					
+					if (j == 2 && cont[2] < 3) {
+						cont[j]++;
+						matrizHorarioEstudo[i][j] = "Estudar";
+					}
+					
+					if (j == 3 && cont[3] < 3) {
+						cont[j]++;
+						matrizHorarioEstudo[i][j] = "Estudar";
+					}
+					
+					if (j == 4 && cont[4] < 3) {
+						cont[j]++;
+						matrizHorarioEstudo[i][j] = "Estudar";
+					}
+					
+					if (j == 5 && cont[5] < 3) {
+						cont[j]++;
+						matrizHorarioEstudo[i][j] = "Estudar";
+					}
+					
+					if (j == 6 && cont[6] < 3) {
+						cont[j]++;
+						matrizHorarioEstudo[i][j] = "Estudar";
+					}
+					
+				}else{
+					matrizHorarioEstudo[i][j] = "  ---------";
 				}
 			}
 		}
-
+		return matrizHorarioEstudo;
 	}
 
+	
+	
+	
 	public static KeyAdapter alphabeticOnlyAdapter() {
 		KeyAdapter keyAdapter = new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-
+				
 				if (!Character.isAlphabetic(e.getKeyChar())) {
 					e.consume();
 				}
 			}
 		};
-
+		
 		return keyAdapter;
 	}
-
+	
 	public static String[] GerarHorarios() {
-		String[] horarios = new String[25];
+		String[] horarios = new String[20];
 		horarios[0] = "Inicial/Final";
-
+		
+		
 		for (int i = 1; i < horarios.length; i++) {
-			if (i > 4) {
-				horarios[i] = (i - 1) + ":30";
-			} else {
-				horarios[i] = "0" + (i - 1) + ":30";
-			}
-
+			horarios[i] = (i + 4) + ":30";
+			
 		}
-
+		
 		return horarios;
 	}
-
+	
 }

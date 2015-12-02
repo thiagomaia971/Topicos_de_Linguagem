@@ -67,14 +67,6 @@ public class MainFrame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * SQLite.insertPessoa(new Pessoa("Thiago", "26/04/1997"));
-		 * ArrayList<Dia> a = new ArrayList<Dia>(); a.add(new Dia(1, 1,
-		 * "Segunda", "7", "10")); a.add(new Dia(1, 1, "Terca", "7", "10"));
-		 * 
-		 * SQLite.insertCompromisso(new Compromisso(1, 1, "Faculdade", a));
-		 * SQLite.insertDia(a.get(0)); SQLite.insertDia(a.get(1));
-		 */
 
 		isCreatePanelActive = false;
 		isEditPanelActive = false;
@@ -136,9 +128,19 @@ public class MainFrame extends JFrame {
 				pnHorarioEstudo.setBounds(250, 70, 792, 558);
 
 				if(PessoaClickada != null){
+					
 					pnHorarioEstudo.setPessoaClickada(PessoaClickada);
 					pnCreateCompromisso.setPessoaClickada(PessoaClickada);
 					pnAllCompromisso.setPessoaClickada(PessoaClickada);
+					
+					pnAllCompromisso.rowData = new String[20][8];
+					pnHorarioEstudo.rowData = new String[20][8];
+					
+					
+					//Services.populandoCompromisso(PessoaClickada);
+					//Services.gerarTabelaHorario();
+					//pnAllCompromisso.setMatriz(PessoaClickada);
+					//pnHorarioEstudo.setMatriz(PanelHorarioEstudo.rowData);
 				}
 
 
@@ -162,8 +164,6 @@ public class MainFrame extends JFrame {
 
 			}
 		});
-
-		
 
 
 		pnAllCompromisso.setListListener(new ILeftToolbarListener() {
@@ -208,6 +208,8 @@ public class MainFrame extends JFrame {
 				pnHorarioEstudo.setPessoaClickada(PessoaClickada);
 				pnCreateCompromisso.setPessoaClickada(PessoaClickada);
 				pnAllCompromisso.setPessoaClickada(PessoaClickada);
+				
+				Services.gerarTabelaHorario();
 			}
 			
 			this.getContentPane().add(pnHorarioEstudo);
