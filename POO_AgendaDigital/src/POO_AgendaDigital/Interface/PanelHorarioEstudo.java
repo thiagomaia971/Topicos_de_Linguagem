@@ -10,6 +10,7 @@ import POO_AgendaDigital.Services.Services;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 
 @SuppressWarnings("serial")
@@ -35,8 +36,9 @@ public class PanelHorarioEstudo extends JPanel {
 		lblNamePessoa.setBounds(10, 11, 772, 62);
 
 		columnNames = new Object[] { "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO", "DOMINGO" };
-		populandoTabela();
+		//populandoTabela();
 		rowData = new String[20][8];
+		
 		table = new JTable(rowData, columnNames);
 
 		table.setColumnSelectionAllowed(true);
@@ -53,14 +55,16 @@ public class PanelHorarioEstudo extends JPanel {
 		Services.gerarTabelaHorario();
 	}
 
-	private void populandoTabela() {
+	/*private void populandoTabela() {
 		rowData = new String[20][7];
 		table = new JTable(rowData, columnNames);
 		
-	}
+	}*/
 
 	public void setMatriz(String[][] gerarTabelaHorario) {
 		this.rowData = gerarTabelaHorario;
+		DefaultTableModel model = new DefaultTableModel(Services.populandoCompromisso(ToolbarLeft.jListPessoas.getSelectedValue()), columnNames );
+		table.setModel(model);
 		//Services.gerarTabelaHorario();
 	}
 

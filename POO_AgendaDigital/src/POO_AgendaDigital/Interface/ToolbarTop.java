@@ -64,6 +64,8 @@ public class ToolbarTop extends JPanel implements ActionListener{
 				
 			tbLeftListener.buttomEventCurrent("TodosCompromissos");
 			
+			Services.populandoCompromisso(ToolbarLeft.jListPessoas.getSelectedValue());
+			
 			Services.btnCompromissoSelected();
 		}	
 		

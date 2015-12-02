@@ -80,6 +80,7 @@ public class MainFrame extends JFrame {
 		tbLeft.setBounds(0, 0, 250, 595);
 		tbTop.setBounds(250, 0, 802, 80);
 		
+		Services.setJFrame(this);
 		pnEditPessoa = new PanelEditPessoa();
 		pnCreatePessoa = new PanelCreatePessoa();
 		pnAllCompromisso = new PanelAllCompromisso();
@@ -92,7 +93,6 @@ public class MainFrame extends JFrame {
 		this.getContentPane().add(pnCreateCompromisso);
 		this.getContentPane().add(pnHorarioEstudo);
 		
-		Services.setJFrame(this);
 
 		tbLeft.setLeftToolbarListener(new ILeftToolbarListener() {
 
@@ -137,8 +137,11 @@ public class MainFrame extends JFrame {
 					pnHorarioEstudo.rowData = new String[20][8];
 					
 					
-					//Services.populandoCompromisso(PessoaClickada);
-					//Services.gerarTabelaHorario();
+					Services.populandoCompromisso(PessoaClickada);
+					Services.gerarTabelaHorario();
+					
+					repaint();
+					revalidate();
 					//pnAllCompromisso.setMatriz(PessoaClickada);
 					//pnHorarioEstudo.setMatriz(PanelHorarioEstudo.rowData);
 				}

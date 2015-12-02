@@ -18,6 +18,7 @@ import POO_AgendaDigital.Services.Services;
 import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class PanelAllCompromisso extends JPanel implements ActionListener {
@@ -25,7 +26,6 @@ public class PanelAllCompromisso extends JPanel implements ActionListener {
 	private static JLabel lblNamePessoa;
 	private static Pessoa _pessoaSelected;
 	private JButton btnNovo;
-	JButton btnGerarHorarios;
 
 	public static JTable table;
 	public static String rowData[][];
@@ -57,26 +57,20 @@ public class PanelAllCompromisso extends JPanel implements ActionListener {
 		btnNovo.addActionListener(this);
 
 		columnNames = new Object[] { "Horários", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo" };
+		this.rowData = new String[20][8];
 		rowData = Services.populandoCompromisso(ToolbarLeft.jListPessoas.getSelectedValue());
-
+		
 		//Services.populandoCompromisso(ToolbarLeft.jListPessoas.getSelectedValue());
-
 		table = new JTable(rowData, columnNames);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		table.setBorder(new CompoundBorder());
-		table.setBounds(-65, 66, 897, 400);
+		table.setBounds(59, 66, 705, 400);
 		table.setVisible(true);
 
 		this.add(lblNamePessoa);
 		this.add(btnNovo);
 		this.add(table);
-
-		btnGerarHorarios = new JButton("Gerar Horarios");
-		btnGerarHorarios.setBounds(555, 487, 189, 34);
-
-		btnGerarHorarios.addActionListener(this);
-		add(btnGerarHorarios);
 
 	}
 
@@ -92,11 +86,6 @@ public class PanelAllCompromisso extends JPanel implements ActionListener {
 		if (buttonClicked == btnNovo) {
 			tbLeftListener.buttomEventCurrent("NovoCompromisso", (Pessoa) _pessoaSelected);
 		}
-		if (buttonClicked == btnGerarHorarios) {
-
-			Services.gerarTabelaHorario();
-
-		}
 
 	}
 
@@ -107,7 +96,8 @@ public class PanelAllCompromisso extends JPanel implements ActionListener {
 	public void setMatriz(Pessoa PessoaSelected) {
 //		this.rowData = populandoCompromisso;
 		this.rowData = new String[20][8];
-		rowData = Services.populandoCompromisso(PessoaSelected);
-		
+		//rowData = Services.populandoCompromisso(PessoaSelected);
+		DefaultTableModel model = new DefaultTableModel(Services.populandoCompromisso(ToolbarLeft.jListPessoas.getSelectedValue()), columnNames );
+		table.setModel(model);
 	}
 }

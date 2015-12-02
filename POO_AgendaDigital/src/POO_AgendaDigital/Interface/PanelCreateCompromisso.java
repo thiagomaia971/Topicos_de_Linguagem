@@ -303,8 +303,27 @@ public class PanelCreateCompromisso extends JPanel implements ActionListener {
 		
 		Services.SwitchPanelService("HorarioEstudo", ToolbarLeft.jListPessoas.getSelectedValue());
 		
+		MainFrame.isCreateCompromissoPanelActive = false;
+		MainFrame.isAllCompromissoPanelActive = true;
 		MainFrame.pnCreateCompromisso.setVisible(false);
 		MainFrame.pnAllCompromisso.setVisible(true);
+		
+		int lastPessoa = ToolbarLeft.jListPessoas.getSelectedIndex();
+		
+		int lastIndex = -1;
+		
+		ToolbarLeft.model.clear();
+		
+		for (int i = 0; i < SQLite.qtdePessoasRegistradas(); i++) {
+			ToolbarLeft.model.add(i, SQLite.getPessoaByIndex(i));
+			lastIndex++;
+		}
+		
+		ToolbarLeft.jListPessoas.setSelectedIndex(lastPessoa);
+		
+		Services.populandoCompromisso(ToolbarLeft.jListPessoas.getSelectedValue());
+		Services.gerarTabelaHorario();
+		
 		
 		Services.btnNovaPessoaSelected();
 

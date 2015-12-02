@@ -189,6 +189,9 @@ public class Services {
 	}
 
 	public static String[][] populandoCompromisso(Pessoa pessoaSelected) {
+		//PanelAllCompromisso.rowData = new String[20][8];
+		//PanelHorarioEstudo.rowData = new String[20][8];
+		
 		ArrayList<Compromisso> allCompromissos = SQLite.getCompromissos();
 		ArrayList<Compromisso> compromissos = new ArrayList<Compromisso>();
 
@@ -262,6 +265,8 @@ public class Services {
 
 			}
 		}
+		
+		
 		return compromissoM;
 	}
 	
@@ -331,6 +336,10 @@ public class Services {
 				}
 			}
 		}
+		
+		/*MainFrame.repaint();
+		MainFrame.revalidate();*/
+		
 		return matrizHorarioEstudo;
 	}
 
